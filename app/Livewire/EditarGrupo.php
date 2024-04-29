@@ -89,17 +89,17 @@ class EditarGrupo extends Component
         $this->validate($rules);
 
         $grupo->update([
-            'grupo' => $this->grupo,
+            'grupo' => trim($this->grupo),
             'inicio_periodo' => date('Y-m-d', strtotime(str_replace('-', '/', $this->inicio_periodo))),
             'fin_periodo' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fin_periodo))),
             'fecha_corte' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_corte))),
-            'ciclo' => $this->ciclo,
-            'modalidad' => $this->modalidad,
-            'precio_mensualidad' => $this->precio_mensualidad,
-            'precio_total' => $this->precio_total,
-            'inscripcion' => $this->inscripcion,
-            'cantidad_max_alumnos' => $this->cantidad_maxima_alumnos,
-            'curso_id' => $this->curso,
+            'ciclo' => trim($this->ciclo),
+            'modalidad' => trim($this->modalidad),
+            'precio_mensualidad' => trim($this->precio_mensualidad),
+            'precio_total' => trim($this->precio_total),
+            'inscripcion' => trim($this->inscripcion),
+            'cantidad_max_alumnos' => trim($this->cantidad_maxima_alumnos),
+            'curso_id' => trim($this->curso),
         ]);
 
         $this->dispatch('grupoUpdated');

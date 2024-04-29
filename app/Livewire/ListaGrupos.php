@@ -4,7 +4,10 @@ namespace App\Livewire;
 
 use App\Exports\GruposExport;
 use App\Models\AlumnoGrupo;
+use App\Models\Alumnos;
+use App\Models\Customers;
 use App\Models\Modalidad;
+use App\Models\User;
 use App\Models\UserPermissions;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
@@ -12,6 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Models\Grupos;
 use App\Models\Cursos;
+use PDF;
 
 class ListaGrupos extends Component
 {
@@ -31,7 +35,7 @@ class ListaGrupos extends Component
         'cantidad_maxima_alumnos' => 'cantidad máxima de alumnos',
     ];
 
-    protected $listeners = ['goOn-Delete-Grupo' => 'deleteGrupo'];
+    protected $listeners = ['goOn-Delete-Grupo' => 'deleteGrupo', 'goOn-Print-Credentials-Group' => 'printCredentialsGroup'];
 
     public $sortField = 'created_at', $sortAsc = true, $search = '', $totalEntries, $selectedStatus = null, $modalidades, $cursos, $grupo, $inicio_periodo, $fin_periodo, $fecha_corte, $ciclo, $modalidad, $precio_mensualidad, $precio_total, $inscripcion, $curso, $cantidad_maxima_alumnos, $modulePermissions, $filtro_modalidad;
 
@@ -71,17 +75,17 @@ class ListaGrupos extends Component
         $this->validate($rules);
 
         Grupos::create([
-            'grupo' => $this->grupo,
+            'grupo' => trim($this->grupo),
             'inicio_periodo' => date('Y-m-d', strtotime(str_replace('-', '/', $this->inicio_periodo))),
             'fin_periodo' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fin_periodo))),
             'fecha_corte' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_corte))),
-            'ciclo' => $this->ciclo,
-            'modalidad' => $this->modalidad,
-            'precio_mensualidad' => $this->precio_mensualidad,
-            'precio_total' => $this->precio_total,
-            'inscripcion' => $this->inscripcion,
-            'cantidad_max_alumnos' => $this->cantidad_maxima_alumnos,
-            'curso_id' => $this->curso,
+            'ciclo' => trim($this->ciclo),
+            'modalidad' => trim($this->modalidad),
+            'precio_mensualidad' => trim($this->precio_mensualidad),
+            'precio_total' => trim($this->precio_total),
+            'inscripcion' => trim($this->inscripcion),
+            'cantidad_max_alumnos' => trim($this->cantidad_maxima_alumnos),
+            'curso_id' => trim($this->curso),
             'customer_id' => auth()->user()->customer_id,
             'cancelled' => 0,
         ]);
@@ -155,4 +159,63 @@ class ListaGrupos extends Component
         ]);
     }
 
+    #[On('goOn-Print-Credentials-Group')]
+    public function printCredentialsGroup($grupoId)
+    {
+        $listAlumnosGrupo = AlumnoGrupo::query()
+            ->where('grupo_id', config('app.debug') ? $grupoId : decrypt($grupoId))
+            ->where('cancelled', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Obtener las CURP de los alumnos del grupo actual
+        $curps = $listAlumnosGrupo->pluck('curp');
+
+        // Buscar los registros de alumnos que coinciden con las CURP obtenidas
+        $alumnos = Alumnos::whereIn('curp', $curps)
+            ->get();
+
+        // Asignar los nombres y apellidos a cada alumno del grupo
+        foreach ($listAlumnosGrupo as $alumnoGrupo) {
+            $alumno = $alumnos->where('curp', $alumnoGrupo->curp)->where('cancelled', 0)->where('status', '!=', 2)->first();
+            if ($alumno) {
+                $alumnoGrupo->nombre = $alumno->nombre;
+                $alumnoGrupo->apellido_paterno = $alumno->apellido_paterno;
+                $alumnoGrupo->apellido_materno = $alumno->apellido_materno;
+                $alumnoGrupo->nombre_tutor = $alumno->nombre_tutor;
+                $alumnoGrupo->apellido_paterno_tutor = $alumno->apellido_paterno_tutor;
+                $alumnoGrupo->apellido_materno_tutor = $alumno->apellido_materno_tutor;
+                $alumnoGrupo->correo = $alumno->correo;
+                $alumnoGrupo->telefono_emergencia = $alumno->telefono_emergencia;
+                $alumnoGrupo->vigencia = date('d/m/Y', strtotime('+1 year', strtotime(str_replace('-', '/', $alumno->created_at))));
+
+                $user = User::where('email', $alumno->correo)
+                    ->where('cancelled', 0)
+                    ->first();
+                if ($user) {
+                    $alumnoGrupo->user_image = $user->user_image;
+                }
+            }
+        }
+
+        $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
+        $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->where('cancelled', 0)->first();
+
+        // Arreglo de datos para pasar a la vista
+        $data = [
+            'title' => __('Credentials'),
+            'address' => $customer->descripcion,
+            'telephone' => $customer->celular,
+            'alumnos' => $listAlumnosGrupo,
+            'grupo' => $grupo->grupo,
+        ];
+
+        // Cargar la vista PDF y pasarle los datos
+        $pdf = PDF::loadView('pdf/credencialesAlumnosGrupoPDF', $data);
+
+        // Descargar el PDF generado
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, __('Credentials') . ' - ' . $grupo->grupo . '.pdf');
+    }
 }

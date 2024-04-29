@@ -98,8 +98,8 @@ class AsignarGrupos extends Component
                     if (!$alumno) {
                         // El alumno no está registrado en el grupo, crear un nuevo registro
                         AlumnoGrupo::create([
-                            'curp' => $this->alumno_id,
-                            'grupo_id' => $this->grupo,
+                            'curp' => trim($this->alumno_id),
+                            'grupo_id' => trim($this->grupo),
                             'cancelled' => 0,
                         ]);
                     } else {

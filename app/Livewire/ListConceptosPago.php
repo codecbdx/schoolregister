@@ -54,7 +54,7 @@ class ListConceptosPago extends Component
         $this->validate($rules);
 
         ConceptosPago::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListConceptosPago extends Component
         if ($concept) {
             $oldName = $concept->nombre;
 
-            $concept->nombre = $this->nombre;
+            $concept->nombre = trim($this->nombre);
             $concept->save();
 
             if ($concept->nombre !== $oldName) {

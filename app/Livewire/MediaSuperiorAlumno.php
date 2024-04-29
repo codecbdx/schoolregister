@@ -64,7 +64,7 @@ class MediaSuperiorAlumno extends Component
             $ultimoGrado = $this->grados->last();
 
             if ($ultimoGrado) {
-                $this->grado = $ultimoGrado->grado;
+                $this->grado = strval($ultimoGrado->grado);
             }
         }
     }
@@ -91,12 +91,12 @@ class MediaSuperiorAlumno extends Component
             $this->validate($rules);
 
             EducacionMediaSuperior::create([
-                'curp' => $this->curp,
-                'escuela' => $this->media_superior,
-                'area_terminal' => $this->area,
-                'estatus' => $this->status_media_superior,
-                'grado' => $this->grado,
-                'promedio_final_aproximado' => $this->promedio,
+                'curp' => trim($this->curp),
+                'escuela' => trim($this->media_superior),
+                'area_terminal' => trim($this->area),
+                'estatus' => trim($this->status_media_superior),
+                'grado' => trim($this->grado),
+                'promedio_final_aproximado' => trim($this->promedio),
                 'cancelled' => 0,
             ]);
 
@@ -184,14 +184,24 @@ class MediaSuperiorAlumno extends Component
     #[On('goOn-Save-Update-Educacion-Media-Superior')]
     public function saveUpdateEducacion()
     {
+        $rules = [
+            'media_superior' => ['required', 'string', 'max:255'],
+            'area' => ['required', 'string', 'max:255'],
+            'status_media_superior' => ['required', 'string', 'max:255'],
+            'grado' => ['required', 'string', 'max:255'],
+            'promedio' => ['required', 'regex:/^\d{1,10}(\.\d{1,2})?$/'],
+        ];
+
+        $this->validate($rules);
+
         $educacion = EducacionMediaSuperior::find($this->educacionMediaSuperiorId);
         if ($educacion) {
             $educacion->update([
-                'escuela' => $this->media_superior,
-                'area_terminal' => $this->area,
-                'estatus' => $this->status_media_superior,
-                'grado' => $this->grado,
-                'promedio_final_aproximado' => $this->promedio,
+                'escuela' => trim($this->media_superior),
+                'area_terminal' => trim($this->area),
+                'estatus' => trim($this->status_media_superior),
+                'grado' => trim($this->grado),
+                'promedio_final_aproximado' => trim($this->promedio),
             ]);
 
             $this->btn_edit = false;
@@ -200,6 +210,8 @@ class MediaSuperiorAlumno extends Component
 
             // Recargar los datos de la tabla
             $this->list_educacion_media_superior = EducacionMediaSuperior::where('cancelled', 0)->where('curp', $this->educacionMediaSuperiorCURP)->orderBy('updated_at', 'desc')->get();
+
+            $this->dispatch('clear-save-update-prompt-educacion-media-superior');
         }
     }
 

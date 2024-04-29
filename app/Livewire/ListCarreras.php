@@ -54,7 +54,7 @@ class ListCarreras extends Component
         $this->validate($rules);
 
         Carreras::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListCarreras extends Component
         if ($career) {
             $oldName = $career->nombre;
 
-            $career->nombre = $this->nombre;
+            $career->nombre = trim($this->nombre);
             $career->save();
 
             if ($career->nombre !== $oldName) {

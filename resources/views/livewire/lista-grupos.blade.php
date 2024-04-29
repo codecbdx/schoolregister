@@ -124,7 +124,8 @@
                                 </p>
                             </div>
                             <div class="col text-right">
-                                <button id="downloadFile" wire:click="export" type="button" class="btn btn-success btn-icon"
+                                <button id="downloadFile" wire:click="export" type="button"
+                                        class="btn btn-success btn-icon"
                                         data-toggle="tooltip" data-placement="top" title="{{ __('Export') }}">
                                     <i class="mdi mdi-download"></i>
                                 </button>
@@ -179,6 +180,9 @@
                                             </th>
                                         @endif
                                     @endforeach
+                                    <th class="text-center">
+                                        {{ __('Credentials') }}
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -227,6 +231,22 @@
                                                 </td>
                                             @endif
                                         @endforeach
+                                        @if ($grupo->total_alumnos > 0)
+                                            <td class="text-center">
+                                                <button
+                                                    wire:click="$dispatch('print-credentials-group', '{{ config('app.debug') ? $grupo->id : encrypt($grupo->id) }}')"
+                                                    type="button"
+                                                    class="btn btn-inverse-primary btn-icon-text mb-1 mb-md-0">
+                                                    <i class="mdi mdi-account-box mr-2"></i>
+                                                    {{ __('Export credentials') }}
+                                                </button>
+                                            </td>
+                                        @else
+                                            <td class="text-center">
+                                                <span
+                                                    class="badge badge-warning text-white">{{ __('Incomplete information') }}</span>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -568,6 +588,11 @@
             }
         });
     })
+
+    @this.on('print-credentials-group', grupoId => {
+    @this.dispatch('goOn-Print-Credentials-Group', {grupoId: grupoId})
+        showDownloadToast();
+    })
     });
 
     $(document).ready(function () {
@@ -684,4 +709,19 @@
             title: '{{ __('Processing your download. Please wait...') }}',
         });
     });
+
+    function showDownloadToast() {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 6000,
+            timerProgressBar: true,
+        });
+
+        Toast.fire({
+            icon: 'success',
+            title: '{{ __('Processing your download. Please wait...') }}',
+        });
+    }
 </script>

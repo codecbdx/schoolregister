@@ -54,7 +54,7 @@ class ListUniversidades extends Component
         $this->validate($rules);
 
         Universidades::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListUniversidades extends Component
         if ($university) {
             $oldName = $university->nombre;
 
-            $university->nombre = $this->nombre;
+            $university->nombre = trim($this->nombre);
             $university->save();
 
             if ($university->nombre !== $oldName) {

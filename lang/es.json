@@ -352,6 +352,8 @@
     "The start date cannot be after the end date.": "La fecha de inicio no puede ser posterior a la fecha de finalización.",
     "The start date cannot be after the cut-off date.": "La fecha de inicio no puede ser posterior a la fecha límite.",
     "Export credential" : "Exportar credencial",
+    "Export credentials" : "Exportar credenciales",
     "Credential" : "Credencial",
+    "Credentials" : "Credenciales",
     "Validity" : "Vigencia"
 }

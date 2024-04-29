@@ -137,10 +137,10 @@ class ListAlumnos extends Component
         $this->validate($rules, $messages);
 
         $user = User::create([
-            'name' => $this->nombre,
-            'paternal_lastname' => $this->apellido_paterno,
-            'maternal_lastname' => $this->apellido_materno,
-            'email' => $this->correo,
+            'name' => trim($this->nombre),
+            'paternal_lastname' => trim($this->apellido_paterno),
+            'maternal_lastname' => trim($this->apellido_materno),
+            'email' => trim($this->correo),
             'password' => Hash::make($this->curp),
             'customer_id' => auth()->user()->customer_id,
             'user_type_id' => 4,
@@ -150,25 +150,25 @@ class ListAlumnos extends Component
 
         if ($user) {
             $alumno = Alumnos::create([
-                'nombre' => $this->nombre,
-                'apellido_paterno' => $this->apellido_paterno,
-                'apellido_materno' => $this->apellido_materno,
-                'curp' => $this->curp,
-                'sexo' => $this->sexo,
+                'nombre' => trim($this->nombre),
+                'apellido_paterno' => trim($this->apellido_paterno),
+                'apellido_materno' => trim($this->apellido_materno),
+                'curp' => trim($this->curp),
+                'sexo' => trim($this->sexo),
                 'fecha_nacimiento' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_nacimiento))),
-                'correo' => $this->correo,
-                'telefono_emergencia' => $this->telefono_emergencia,
-                'telefono_alumno' => $this->telefono_alumno,
-                'facebook' => $this->facebook,
-                'instagram' => $this->instagram,
-                'nombre_tutor' => $this->nombre_tutor,
-                'apellido_paterno_tutor' => $this->apellido_paterno_tutor,
-                'apellido_materno_tutor' => $this->apellido_materno_tutor,
-                'parentesco_tutor' => $this->parentesco_tutor,
-                'telefono_tutor' => $this->telefono_tutor,
-                'medio_interaccion' => $this->medio_interaccion,
-                'usuario_moodle' => substr($this->curp, 0, 10) . substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(3 / strlen('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')))), 1, 3),
-                'contrasena_moodle' => strtoupper(substr($this->curp, 0, 4) . substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(6 / strlen('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')))), 1, 6)),
+                'correo' => trim($this->correo),
+                'telefono_emergencia' => trim($this->telefono_emergencia),
+                'telefono_alumno' => trim($this->telefono_alumno),
+                'facebook' => trim($this->facebook),
+                'instagram' => trim($this->instagram),
+                'nombre_tutor' => trim($this->nombre_tutor),
+                'apellido_paterno_tutor' => trim($this->apellido_paterno_tutor),
+                'apellido_materno_tutor' => trim($this->apellido_materno_tutor),
+                'parentesco_tutor' => trim($this->parentesco_tutor),
+                'telefono_tutor' => trim($this->telefono_tutor),
+                'medio_interaccion' => trim($this->medio_interaccion),
+                'usuario_moodle' => trim(substr($this->curp, 0, 10) . substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(3 / strlen('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')))), 1, 3)),
+                'contrasena_moodle' => trim(strtoupper(substr($this->curp, 0, 4) . substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(6 / strlen('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')))), 1, 6))),
                 'status' => 2,
                 'customer_id' => auth()->user()->customer_id,
                 'cancelled' => 0,
@@ -263,7 +263,7 @@ class ListAlumnos extends Component
         // Arreglo de datos para pasar a la vista
         $data = [
             'title' => __('Credential'),
-            'date' => date('d/m/Y', strtotime('+1 year')),
+            'date' => date('d/m/Y', strtotime('+1 year', strtotime(str_replace('-', '/', $alumno->created_at)))),
             'address' => $customer->descripcion,
             'telephone' => $customer->celular,
             'alumno' => $alumno,
@@ -276,6 +276,6 @@ class ListAlumnos extends Component
         // Descargar el PDF generado
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'Credencial - ' . $alumno->nombre . ' ' . $alumno->apellido_paterno . ' ' . $alumno->apellido_materno . ' (' . $alumno->curp . ').pdf');
+        }, __('Credential') . ' - ' . $alumno->nombre . ' ' . $alumno->apellido_paterno . ' ' . $alumno->apellido_materno . ' (' . $alumno->curp . ').pdf');
     }
 }

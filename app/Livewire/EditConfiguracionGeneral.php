@@ -77,11 +77,11 @@ class EditConfiguracionGeneral extends Component
         $savedFileFormImage = $this->form_image ? $this->form_image->store('system-pictures', 's3') : $this->current_form_image;
 
         $system->update([
-            'system_name' => $this->name,
-            'system_logo' => $savedFileSystemLogo,
-            'system_icon' => $savedFileSystemIcon,
-            'background_login' => $savedFileSystemBackgroundLogin,
-            'form_image' => $savedFileFormImage,
+            'system_name' => trim($this->name),
+            'system_logo' => trim($savedFileSystemLogo),
+            'system_icon' => trim($savedFileSystemIcon),
+            'background_login' => trim($savedFileSystemBackgroundLogin),
+            'form_image' => trim($savedFileFormImage),
         ]);
 
         $this->redirectRoute('general_configuration');

@@ -54,7 +54,7 @@ class ListMediaSuperior extends Component
         $this->validate($rules);
 
         MediaSuperior::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListMediaSuperior extends Component
         if ($highschool) {
             $oldName = $highschool->nombre;
 
-            $highschool->nombre = $this->nombre;
+            $highschool->nombre = trim($this->nombre);
             $highschool->save();
 
             if ($highschool->nombre !== $oldName) {

@@ -65,8 +65,8 @@
                                     <img src="{{ env('AWS_URL') }}{{ Auth::user()->user_image }}" alt="user">
                                 </div>
                                 <div class="info text-center">
-                                    <p class="name font-weight-bold mb-0">{{ Str::limit(Auth::user()->name . ' ' . Auth::user()->paternal_lastname . ' ' . Auth::user()->maternal_lastname, 30) }}
-                                    <p class="email text-muted mb-3">{{ Str::limit(Auth::user()->email, 30)  }}</p>
+                                    <p class="name font-weight-bold mb-0">{{ Str::limit(Auth::user()->name . ' ' . Auth::user()->paternal_lastname . ' ' . Auth::user()->maternal_lastname, 25) }}
+                                    <p class="email text-muted mb-3">{{ Str::limit(Auth::user()->email, 25)  }}</p>
                                 </div>
                             </div>
                             <div class="dropdown-body">

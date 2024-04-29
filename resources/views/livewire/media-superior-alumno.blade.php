@@ -297,6 +297,9 @@
     @this.on('save-update-prompt-educacion-media-superior', () => {
     @this.set('curp', null)
     @this.dispatch('goOn-Save-Update-Educacion-Media-Superior')
+    })
+
+    @this.on('clear-save-update-prompt-educacion-media-superior', () => {
         $("#media_superior").val("");
         $("#area").val("");
         $("#status_media_superior").val("");

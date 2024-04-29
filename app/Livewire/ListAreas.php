@@ -54,7 +54,7 @@ class ListAreas extends Component
         $this->validate($rules);
 
         Areas::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListAreas extends Component
         if ($area) {
             $oldName = $area->nombre;
 
-            $area->nombre = $this->nombre;
+            $area->nombre = trim($this->nombre);
             $area->save();
 
             if ($area->nombre !== $oldName) {

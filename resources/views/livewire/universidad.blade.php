@@ -214,6 +214,9 @@
     @this.on('save-update-prompt-universidad-alumno', () => {
     @this.set('curp', null)
     @this.dispatch('goOn-Save-Update-Universidad-Alumno')
+    })
+
+    @this.on('clear-save-update-prompt-universidad-alumno', () => {
         $("#universidad").val("");
         $("#licenciatura").val("");
         $("#fecha_examen").val("");

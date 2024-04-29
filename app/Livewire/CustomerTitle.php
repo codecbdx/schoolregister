@@ -20,6 +20,6 @@ class CustomerTitle extends Component
 
     public function render()
     {
-        return view('livewire.customer-title', ['user' => auth()->user()]);
+        return view('livewire.customer-title', ['user_customer_id' => auth()->user()->customer_id]);
     }
 }

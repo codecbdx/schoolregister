@@ -84,15 +84,15 @@ class EditUser extends Component
         $savedFileName = $this->image ? $this->image->store('photos', 's3') : $this->user_image;
 
         $user->update([
-            'name' => $this->name,
-            'paternal_lastname' => $this->paternal_lastname,
-            'maternal_lastname' => $this->maternal_lastname,
-            'email' => $this->email,
+            'name' => trim($this->name),
+            'paternal_lastname' => trim($this->paternal_lastname),
+            'maternal_lastname' => trim($this->maternal_lastname),
+            'email' => trim($this->email),
             'password' => $this->password ? Hash::make($this->password) : $user->password,
-            'user_image' => $savedFileName,
-            'user_type_id' => $this->user_type,
-            'customer_id' => $this->user_customer,
-            'cancelled' => $this->user_status,
+            'user_image' => trim($savedFileName),
+            'user_type_id' => trim($this->user_type),
+            'customer_id' => trim($this->user_customer),
+            'cancelled' => trim($this->user_status),
         ]);
 
         $this->redirectRoute('users');

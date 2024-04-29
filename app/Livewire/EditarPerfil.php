@@ -71,11 +71,11 @@ class EditarPerfil extends Component
         $savedFileName = $this->image ? $this->image->store('photos', 's3') : $this->user_image;
 
         $user->update([
-            'name' => $this->nombre,
-            'paternal_lastname' => $this->paternal_lastname,
-            'maternal_lastname' => $this->maternal_lastname,
+            'name' => trim($this->nombre),
+            'paternal_lastname' => trim($this->paternal_lastname),
+            'maternal_lastname' => trim($this->maternal_lastname),
             'password' => $this->password ? Hash::make($this->password) : $user->password,
-            'user_image' => $savedFileName,
+            'user_image' => trim($savedFileName),
         ]);
 
         $this->dispatch('userUpdated');

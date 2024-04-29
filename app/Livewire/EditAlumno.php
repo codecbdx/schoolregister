@@ -6,6 +6,7 @@ use App\Models\Parentescos;
 use App\Models\User;
 use App\Services\DocumentacionCompletaService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use App\Models\Alumnos;
 use App\Models\MediosComunicacion;
@@ -182,31 +183,44 @@ class EditAlumno extends Component
         $this->validate($rules, $messages);
 
         $user = User::where('email', $alumno->correo)->first();
-        $user->update([
-            'email' => $this->correo,
-        ]);
-
-        $user->save();
+        if ($user) {
+            $user->update([
+                'email' => trim($this->correo),
+            ]);
+            $user->save();
+        } else {
+            $user = User::create([
+                'name' => trim($this->nombre),
+                'paternal_lastname' => trim($this->apellido_paterno),
+                'maternal_lastname' => trim($this->apellido_materno),
+                'email' => trim($this->correo),
+                'password' => Hash::make($this->curp),
+                'customer_id' => auth()->user()->customer_id,
+                'user_type_id' => 4,
+                'user_image' => 'photos/user.png',
+                'cancelled' => 0,
+            ]);
+        }
 
         if ($user) {
             $alumno->update([
-                'nombre' => $this->nombre,
-                'apellido_paterno' => $this->apellido_paterno,
-                'apellido_materno' => $this->apellido_materno,
-                'curp' => $this->curp,
-                'sexo' => $this->sexo,
+                'nombre' => trim($this->nombre),
+                'apellido_paterno' => trim($this->apellido_paterno),
+                'apellido_materno' => trim($this->apellido_materno),
+                'curp' => trim($this->curp),
+                'sexo' => trim($this->sexo),
                 'fecha_nacimiento' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_nacimiento))),
-                'correo' => $this->correo,
-                'telefono_emergencia' => $this->telefono_emergencia,
-                'telefono_alumno' => $this->telefono_alumno,
-                'facebook' => $this->facebook,
-                'instagram' => $this->instagram,
-                'nombre_tutor' => $this->nombre_tutor,
-                'apellido_paterno_tutor' => $this->apellido_paterno_tutor,
-                'apellido_materno_tutor' => $this->apellido_materno_tutor,
-                'parentesco_tutor' => $this->parentesco_tutor,
-                'telefono_tutor' => $this->telefono_tutor,
-                'medio_interaccion' => $this->medio_interaccion,
+                'correo' => trim($this->correo),
+                'telefono_emergencia' => trim($this->telefono_emergencia),
+                'telefono_alumno' => trim($this->telefono_alumno),
+                'facebook' => trim($this->facebook),
+                'instagram' => trim($this->instagram),
+                'nombre_tutor' => trim($this->nombre_tutor),
+                'apellido_paterno_tutor' => trim($this->apellido_paterno_tutor),
+                'apellido_materno_tutor' => trim($this->apellido_materno_tutor),
+                'parentesco_tutor' => trim($this->parentesco_tutor),
+                'telefono_tutor' => trim($this->telefono_tutor),
+                'medio_interaccion' => trim($this->medio_interaccion),
             ]);
 
             if (!app(DocumentacionCompletaService::class)->verificarDocumentacionCompleta($this->curp)) {

@@ -154,9 +154,9 @@ class Documentos extends Component
             ]);
         } else {
             DocumentosAlumno::create([
-                'curp' => $this->curp,
+                'curp' => trim($this->curp),
                 'tipo_documento' => 'ine_alumno',
-                'archivo_pdf' => $savedFile,
+                'archivo_pdf' => trim($savedFile),
                 'cancelled' => 0,
             ]);
         }
@@ -208,9 +208,9 @@ class Documentos extends Component
             ]);
         } else {
             DocumentosAlumno::create([
-                'curp' => $this->curp,
+                'curp' => trim($this->curp),
                 'tipo_documento' => 'curp_alumno',
-                'archivo_pdf' => $savedFile,
+                'archivo_pdf' => trim($savedFile),
                 'cancelled' => 0,
             ]);
         }
@@ -262,9 +262,9 @@ class Documentos extends Component
             ]);
         } else {
             DocumentosAlumno::create([
-                'curp' => $this->curp,
+                'curp' => trim($this->curp),
                 'tipo_documento' => 'comprobante_domicilio_alumno',
-                'archivo_pdf' => $savedFile,
+                'archivo_pdf' => trim($savedFile),
                 'cancelled' => 0,
             ]);
         }
@@ -316,9 +316,9 @@ class Documentos extends Component
             ]);
         } else {
             DocumentosAlumno::create([
-                'curp' => $this->curp,
+                'curp' => trim($this->curp),
                 'tipo_documento' => 'ine_tutor',
-                'archivo_pdf' => $savedFile,
+                'archivo_pdf' => trim($savedFile),
                 'cancelled' => 0,
             ]);
         }
@@ -370,9 +370,9 @@ class Documentos extends Component
             ]);
         } else {
             DocumentosAlumno::create([
-                'curp' => $this->curp,
+                'curp' => trim($this->curp),
                 'tipo_documento' => 'curp_tutor',
-                'archivo_pdf' => $savedFile,
+                'archivo_pdf' => trim($savedFile),
                 'cancelled' => 0,
             ]);
         }

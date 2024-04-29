@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ __('Payment schedule') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
+    <title>{{ __('Credential') }}</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 <body style="background: #ffffff;">
 <table style="width: 100%;">

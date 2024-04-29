@@ -65,10 +65,10 @@ class EditCurso extends Component
         $savedFileName = $this->image ? $this->image->store('courses-pictures', 's3') : $this->course_image;
 
         $course->update([
-            'nombre' => $this->name,
-            'descripcion' => $this->description,
-            'codigo_moodle' => $this->moodle_code,
-            'imagen' => $savedFileName,
+            'nombre' => trim($this->name),
+            'descripcion' => trim($this->description),
+            'codigo_moodle' => trim($this->moodle_code),
+            'imagen' => trim($savedFileName),
         ]);
 
         $this->redirectRoute('courses');

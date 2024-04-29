@@ -68,14 +68,14 @@ class CreateUser extends Component
         $savedFileName = $this->image ? $this->image->store('photos', 's3') : 'photos/user.png';
 
         User::create([
-            'name' => $this->name,
-            'paternal_lastname' => $this->paternal_lastname,
-            'maternal_lastname' => $this->maternal_lastname,
-            'email' => $this->email,
+            'name' => trim($this->name),
+            'paternal_lastname' => trim($this->paternal_lastname),
+            'maternal_lastname' => trim($this->maternal_lastname),
+            'email' => trim($this->email),
             'password' => Hash::make($this->password),
-            'customer_id' => $this->user_customer,
-            'user_type_id' => $this->user_type,
-            'user_image' => $savedFileName,
+            'customer_id' => trim($this->user_customer),
+            'user_type_id' => trim($this->user_type),
+            'user_image' => trim($savedFileName),
             'cancelled' => 0,
         ]);
 

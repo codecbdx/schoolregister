@@ -46,15 +46,15 @@ class CreateCentroEducativo extends Component
         $this->validate($rules);
 
         Customers::create([
-            'nombre' => $this->name,
-            'descripcion' => $this->description,
-            'responsable' => $this->responsible,
-            'correo' => $this->email,
-            'celular' => $this->phone,
-            'banco' => $this->bank,
-            'titular' => $this->bank_account_holder,
-            'clabe' => $this->clabe,
-            'numero_cuenta' => $this->bank_account_number,
+            'nombre' => trim($this->name),
+            'descripcion' => trim($this->description),
+            'responsable' => trim($this->responsible),
+            'correo' => trim($this->email),
+            'celular' => trim($this->phone),
+            'banco' => trim($this->bank),
+            'titular' => trim($this->bank_account_holder),
+            'clabe' => trim($this->clabe),
+            'numero_cuenta' => trim($this->bank_account_number),
             'cancelled' => 0,
         ]);
 

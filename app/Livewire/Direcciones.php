@@ -77,7 +77,7 @@ class Direcciones extends Component
     {
         $this->options = CodigosPostales::when($this->search, function ($query) {
             return $query->where('codigo', 'like', '%' . $this->search . '%');
-        })->take(500)->get();
+        })->take(999)->get();
     }
 
     public function saveDireccionAlumno()
@@ -95,13 +95,13 @@ class Direcciones extends Component
             $this->validate($rules);
 
             DireccionesAlumno::create([
-                'curp' => $this->curp,
-                'codigo_postal' => $this->codigo_postal != '' ? $this->codigo_postal : $this->search,
-                'calle' => $this->calle,
-                'asentamiento' => $this->asentamiento,
-                'tipo_asentamiento' => $this->tipo_asentamiento,
-                'municipio' => $this->municipio,
-                'estado' => $this->estado,
+                'curp' => trim($this->curp),
+                'codigo_postal' => trim($this->codigo_postal) != '' ? trim($this->codigo_postal) : trim($this->search),
+                'calle' => trim($this->calle),
+                'asentamiento' => trim($this->asentamiento),
+                'tipo_asentamiento' => trim($this->tipo_asentamiento),
+                'municipio' => trim($this->municipio),
+                'estado' => trim($this->estado),
                 'cancelled' => 0,
             ]);
 

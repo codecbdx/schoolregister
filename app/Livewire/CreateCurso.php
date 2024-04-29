@@ -55,10 +55,10 @@ class CreateCurso extends Component
         $savedFileName = $this->image ? $this->image->store('courses-pictures', 's3') : null;
 
         Cursos::create([
-            'nombre' => $this->name,
-            'descripcion' => $this->description,
-            'codigo_moodle' => $this->moodle_code,
-            'imagen' => $savedFileName,
+            'nombre' => trim($this->name),
+            'descripcion' => trim($this->description),
+            'codigo_moodle' => trim($this->moodle_code),
+            'imagen' => trim($savedFileName),
             'customer_id' => auth()->user()->customer_id,
             'cancelled' => 0,
         ]);

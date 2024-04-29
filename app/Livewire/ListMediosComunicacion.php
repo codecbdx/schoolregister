@@ -54,7 +54,7 @@ class ListMediosComunicacion extends Component
         $this->validate($rules);
 
         MediosComunicacion::create([
-            'nombre' => $this->nombre_create,
+            'nombre' => trim($this->nombre_create),
             'cancelled' => 0,
         ]);
 
@@ -76,7 +76,7 @@ class ListMediosComunicacion extends Component
         if ($mean) {
             $oldName = $mean->nombre;
 
-            $mean->nombre = $this->nombre;
+            $mean->nombre = trim($this->nombre);
             $mean->save();
 
             if ($mean->nombre !== $oldName) {

@@ -73,10 +73,10 @@ class Universidad extends Component
             $this->validate($rules);
 
             UniversidadesAlumno::create([
-                'curp' => $this->curp,
-                'universidad' => $this->universidad,
-                'licenciatura' => $this->licenciatura,
-                'fecha_examen' => $this->fecha_examen,
+                'curp' => trim($this->curp),
+                'universidad' => trim($this->universidad),
+                'licenciatura' => trim($this->licenciatura),
+                'fecha_examen' => trim($this->fecha_examen),
                 'cancelled' => 0,
             ]);
 
@@ -160,12 +160,20 @@ class Universidad extends Component
     #[On('goOn-Save-Update-Universidad-Alumno')]
     public function saveUpdateUniversidadAlumno()
     {
+        $rules = [
+            'universidad' => ['required', 'string', 'max:255'],
+            'licenciatura' => ['required', 'string', 'max:255'],
+            'fecha_examen' => ['required'],
+        ];
+
+        $this->validate($rules);
+
         $universidad_alumno = UniversidadesAlumno::find($this->universidad_alumno_id);
         if ($universidad_alumno) {
             $universidad_alumno->update([
-                'universidad' => $this->universidad,
-                'licenciatura' => $this->licenciatura,
-                'fecha_examen' => $this->fecha_examen,
+                'universidad' => trim($this->universidad),
+                'licenciatura' => trim($this->licenciatura),
+                'fecha_examen' => trim($this->fecha_examen),
             ]);
 
             $this->btn_edit = false;
@@ -174,6 +182,8 @@ class Universidad extends Component
 
             // Recargar los datos de la tabla
             $this->list_universidades_alumno = UniversidadesAlumno::where('cancelled', 0)->where('curp', $this->curpAlumno)->orderBy('updated_at', 'desc')->get();
+
+            $this->dispatch('clear-save-update-prompt-universidad-alumno');
         }
     }
 

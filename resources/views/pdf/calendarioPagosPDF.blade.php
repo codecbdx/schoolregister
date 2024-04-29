@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>{{ __('Payment schedule') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 <body style="background: #ffffff;">
 <table style="width: 100%;">
@@ -50,7 +50,10 @@
                 {{ number_format(($pago_alumno->cargo - $pago_alumno->abono), 2) }}
             </td>
             <td>
-                @if ($pago_alumno->estado_pago == 1)
+                @if ($pago_alumno->fecha_vencimiento < $fecha_actual)
+                    <span
+                        class="badge badge-danger text-white">{{ __('Defeated') }}</span>
+                @elseif ($pago_alumno->estado_pago == 1)
                     <span class="badge badge-success">{{ __('Paid') }}</span>
                 @elseif ($pago_alumno->estado_pago == 0)
                     <span
@@ -63,7 +66,8 @@
 
 <div class="mt-5">
     <hr style="border: none; border-top: 1px solid #000; margin: 0 auto; width: 50%;">
-    <p style="margin: 0 auto; width: 50%;" class="text-center">{{ __('Signature of conformity and knowledge of what is stated in the present document') }}</p>
+    <p style="margin: 0 auto; width: 50%;"
+       class="text-center">{{ __('Signature of conformity and knowledge of what is stated in the present document') }}</p>
 </div>
 </body>
 </html>

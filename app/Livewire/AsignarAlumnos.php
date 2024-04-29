@@ -119,8 +119,8 @@ class AsignarAlumnos extends Component
                     if (!$alumno) {
                         // El alumno no está registrado en el grupo, crear un nuevo registro
                         AlumnoGrupo::create([
-                            'curp' => $this->curp,
-                            'grupo_id' => $this->grupo_id,
+                            'curp' => trim($this->curp),
+                            'grupo_id' => trim($this->grupo_id),
                             'cancelled' => 0,
                         ]);
                     } else {
@@ -236,11 +236,11 @@ class AsignarAlumnos extends Component
             } while ($conceptoPagoAlumno !== null);
 
             $concepto_pago_alumno = Pagos::create([
-                'folio' => $folio_alumno,
-                'curp' => $alumnoGrupo->curp,
+                'folio' => trim($folio_alumno),
+                'curp' => trim($alumnoGrupo->curp),
                 'fecha_vencimiento' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_vencimiento_alumno))),
-                'concepto' => $this->concepto_pago_alumno,
-                'cargo' => $this->cargo_alumno,
+                'concepto' => trim($this->concepto_pago_alumno),
+                'cargo' => trim($this->cargo_alumno),
                 'estado_pago' => 0,
                 'usuario_responsable' => auth()->user()->id,
                 'customer_id' => auth()->user()->customer_id,

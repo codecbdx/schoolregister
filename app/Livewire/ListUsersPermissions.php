@@ -54,8 +54,8 @@ class ListUsersPermissions extends Component
         $permission = UserPermissions::where('user_type_id', $this->select_type_permission_create)->where('route_name', $this->select_route_permission_create)->where('cancelled', 0)->get();
         if ($permission->isEmpty()) {
             UserPermissions::create([
-                'user_type_id' => $this->select_type_permission_create,
-                'route_name' => $this->select_route_permission_create,
+                'user_type_id' => trim($this->select_type_permission_create),
+                'route_name' => trim($this->select_route_permission_create),
                 'cancelled' => 0,
             ]);
 
@@ -84,8 +84,8 @@ class ListUsersPermissions extends Component
                 $oldUserTypeId = $permission->user_type_id;
                 $oldRouteName = $permission->route_name;
 
-                $permission->user_type_id = $this->select_type_permission;
-                $permission->route_name = $this->select_route_permission;
+                $permission->user_type_id = trim($this->select_type_permission);
+                $permission->route_name = trim($this->select_route_permission);
                 $permission->save();
 
                 if ($permission->user_type_id !== $oldUserTypeId || $permission->route_name !== $oldRouteName) {

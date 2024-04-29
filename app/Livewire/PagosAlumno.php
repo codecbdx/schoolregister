@@ -45,6 +45,7 @@ class PagosAlumno extends Component
             'pagos_alumno' => $pagos_alumno,
             'curp_alumno' => $this->curpAlumno,
             'nombre_alumno' => $this->nombreAlumno,
+            'fecha_actual' => date('Y-m-d'),
         ];
 
         // Cargar la vista PDF y pasarle los datos
@@ -144,11 +145,11 @@ class PagosAlumno extends Component
         $this->validate($rules);
 
         $concepto_pago_alumno = Pagos::create([
-            'folio' => $this->folio_alumno,
-            'curp' => $this->curpAlumno,
+            'folio' => trim($this->folio_alumno),
+            'curp' => trim($this->curpAlumno),
             'fecha_vencimiento' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_vencimiento_alumno))),
-            'concepto' => $this->concepto_pago_alumno,
-            'cargo' => $this->cargo_alumno,
+            'concepto' => trim($this->concepto_pago_alumno),
+            'cargo' => trim($this->cargo_alumno),
             'estado_pago' => 0,
             'usuario_responsable' => auth()->user()->id,
             'customer_id' => auth()->user()->customer_id,
@@ -177,11 +178,11 @@ class PagosAlumno extends Component
         $this->validate($rules);
 
         $concepto_pago_alumno->update([
-            'folio_alumno_actual' => $this->folio_alumno,
-            'curp' => $this->concepto_pago_alumno_seleccionado != null ? $this->concepto_pago_alumno_seleccionado : $this->curpAlumno,
+            'folio_alumno_actual' => trim($this->folio_alumno),
+            'curp' => trim($this->concepto_pago_alumno_seleccionado) != null ? trim($this->concepto_pago_alumno_seleccionado) : trim($this->curpAlumno),
             'fecha_vencimiento' => date('Y-m-d', strtotime(str_replace('-', '/', $this->fecha_vencimiento_alumno))),
-            'concepto' => $this->concepto_pago_alumno,
-            'cargo' => $this->cargo_alumno,
+            'concepto' => trim($this->concepto_pago_alumno),
+            'cargo' => trim($this->cargo_alumno),
             'estado_pago' => 0,
             'usuario_responsable' => auth()->user()->id,
             'cancelled' => 0,
