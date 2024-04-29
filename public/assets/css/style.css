@@ -12757,10 +12757,10 @@ a.close.disabled {
 
 .spinner-border {
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  width: 4rem;
+  height: 4rem;
   vertical-align: text-bottom;
-  border: 0.25em solid currentColor;
+  border: 0.45em solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
   animation: spinner-border .75s linear infinite; }
@@ -25217,5 +25217,24 @@ div.tagsinput {
 .rtl .wizard > .steps > ul > li,
 .rtl .wizard > .actions > ul > li {
   float: right; }
+
+.loader-file {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: #ffffff;
+    border-radius: .4em;
+    opacity: 1;
+}
+
+.loader-file .v-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
 /*# sourceMappingURL=../maps/demo_1/style.css.map */

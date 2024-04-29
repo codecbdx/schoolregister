@@ -1,5 +1,55 @@
 <div>
     <div class="row">
+        <div wire:loading wire:target="ine_pdf" class="loader-file">
+            <div
+                class="v-align">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="ine_tutor_pdf" class="loader-file">
+            <div
+                class="v-align">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="curp_pdf" class="loader-file">
+            <div
+                class="v-align">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="curp_tutor_pdf" class="loader-file">
+            <div
+                class="v-align">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div wire:loading wire:target="address_pdf" class="loader-file">
+            <div
+                class="v-align">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-12">
             @if($mayor_edad)
                 <div class="form-group">

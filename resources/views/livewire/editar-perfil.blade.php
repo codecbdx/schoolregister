@@ -148,6 +148,16 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-group m-0">
+                            <div wire:loading wire:target="image" class="loader-file">
+                                <div
+                                    class="v-align">
+                                    <div class="text-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <p class="card-description text-justify text-dark">{{ __('Specifications image') }}</p>
                             <input type="file" class="file-upload-default"
                                    accept="image/jpeg, image/png, image/jpg, image/webp" wire:model="image">
@@ -155,9 +165,11 @@
                                 <input type="text" class="form-control file-upload-info" disabled
                                        placeholder="{{ __('Select your profile image') }}">
                                 <span class="input-group-append">
-												<button class="file-upload-browse btn btn-primary"
-                                                        type="button">{{ __('Upload') }}</button>
-											</span>
+                                    <button class="file-upload-browse btn btn-primary"
+                                            type="button">
+                                        {{ __('Upload') }}
+                                    </button>
+                                </span>
                             </div>
                             @if($image && !$errors->has('image'))
                                 <div class="d-flex justify-content-center align-items-center">
@@ -183,7 +195,7 @@
 </div>
 <script>
     document.querySelectorAll('.btn-back').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             window.history.back();
         });
     });

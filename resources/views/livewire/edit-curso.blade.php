@@ -37,6 +37,16 @@
         <div class="row">
             <div class="col-md-12 stretch-card">
                 <div class="card">
+                    <div wire:loading wire:target="image" class="loader-file">
+                        <div
+                            class="v-align">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">

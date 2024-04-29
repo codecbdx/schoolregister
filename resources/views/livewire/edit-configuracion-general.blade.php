@@ -34,6 +34,26 @@
             </div>
             <div class="col-lg-8 grid-margin stretch-card">
                 <div class="card">
+                    <div wire:loading wire:target="system_logo" class="loader-file">
+                        <div
+                            class="v-align">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div wire:loading wire:target="system_icon" class="loader-file">
+                        <div
+                            class="v-align">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name" class="col-form-label">{{ __('Name System') }}</label>
@@ -119,6 +139,26 @@
             </div>
             <div class="col-lg-8 grid-margin stretch-card">
                 <div class="card">
+                    <div wire:loading wire:target="background_login" class="loader-file">
+                        <div
+                            class="v-align">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div wire:loading wire:target="form_image" class="loader-file">
+                        <div
+                            class="v-align">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="background_login" class="col-form-label">{{ __('Background Login') }}</label>

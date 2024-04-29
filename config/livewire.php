@@ -66,13 +66,13 @@ return [
     'temporary_file_upload' => [
         'disk' => null,        // Example: 'local', 's3'              | Default: 'default'
         //'rules' => 'file|mimes:png,jpg,pdf,gif,bmp,svg,jpeg,webp|max:6144',       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
-        'directory' => null,   // Example: 'tmp'                      | Default: 'livewire-tmp'
+        'directory' => 'tmp',   // Example: 'tmp'                      | Default: 'livewire-tmp'
         'middleware' => 'throttle:15,1',  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
         'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
             'png', 'gif', 'bmp', 'svg',
             'jpg', 'jpeg', 'webp', 'pdf',
         ],
-        'max_upload_time' => 1, // Max duration (in minutes) before an upload is invalidated...
+        'max_upload_time' => 2, // Max duration (in minutes) before an upload is invalidated...
     ],
 
     /*
