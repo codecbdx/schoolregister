@@ -83,9 +83,28 @@
                                         @endforeach
                                         @php
                                             $totalSaldo = $totalCargo - $totalAbono;
+
+                                            if ($totalSaldo < 0) {
+                                                $displaySaldo = number_format(abs($totalSaldo), 2);
+                                                $saldoStyle = 'text-success';
+                                                $sign = '+';
+                                                $icon = 'arrow-up';
+                                            } elseif ($totalSaldo > 0) {
+                                                $displaySaldo = number_format($totalSaldo, 2);
+                                                $saldoStyle = 'text-danger';
+                                                $sign = '-';
+                                                $icon = 'arrow-down';
+                                            } else {
+                                                $displaySaldo = number_format($totalSaldo, 2);
+                                                $saldoStyle = 'text-muted';
+                                                $sign = '';
+                                                $icon = '';
+                                            }
                                         @endphp
-                                        <h4 class="mb-2 text-danger">{{ number_format($totalSaldo, 2) }} <i
-                                                data-feather="arrow-down" class="icon-sm mb-1"></i></h4>
+                                        <h4 class="mb-2 {{ $saldoStyle }}">
+                                            {{ $sign }}{{ $displaySaldo }}
+                                            <i data-feather="{{ $icon }}" class="icon-sm mb-1"></i>
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -104,11 +123,31 @@
                                         @endphp
                                         @foreach ($list_conceptos_pago_alumnos as $concepto_pago_alumno)
                                             @php
-                                                $totalAbono += $concepto_pago_alumno->abono;
+                                                $totalAbono += $concepto_pago_alumno->abono; // Sumar abonos
                                             @endphp
                                         @endforeach
-                                        <h4 class="mb-2 text-success">{{ number_format($totalAbono, 2) }} <i
-                                                data-feather="arrow-up" class="icon-sm mb-1"></i></h4>
+                                        @php
+                                            if ($totalAbono < 0) {
+                                                $displayAbono = number_format(abs($totalAbono), 2);
+                                                $abonoStyle = 'text-danger';
+                                                $sign = '-';
+                                                $icon = 'arrow-down';
+                                            } elseif ($totalAbono > 0) {
+                                                $displayAbono = number_format($totalAbono, 2);
+                                                $abonoStyle = 'text-success';
+                                                $sign = '+';
+                                                $icon = 'arrow-up';
+                                            } else {
+                                                $displayAbono = number_format($totalAbono, 2);
+                                                $abonoStyle = 'text-muted';
+                                                $sign = '';
+                                                $icon = '';
+                                            }
+                                        @endphp
+                                        <h4 class="mb-2 {{ $abonoStyle }}">
+                                            {{ $sign }}{{ $displayAbono }}
+                                            <i data-feather="{{ $icon }}" class="icon-sm mb-1"></i>
+                                        </h4>
                                     </div>
                                 </div>
                             </div>
@@ -139,9 +178,9 @@
 @if ($adminSection === true)
     <script>
         const studentData = @json($studentData); // Datos en JSON
-        const lastSixMonths = studentData.slice(-6); // Obtiene los últimos 6 elementos
+        const lastSixMonths = studentData.slice(-12); // Obtiene los últimos 6 elementos
 
-        const categories = lastSixMonths.map(item => item.month); // Nombres de los meses
+        const categories = lastSixMonths.map(item => item.month_year); // Nombres de los meses
         const values = lastSixMonths.map(item => item.student_count); // Cantidad de estudiantes
 
         // Crear el gráfico solo si el elemento #apexChartStudents está presente
@@ -156,7 +195,7 @@
                 },
                 plotOptions: {
                     bar: {
-                        columnWidth: '20px',
+                        columnWidth: '45%',
                     },
                 },
                 colors: ['#727cf5'],

@@ -27,19 +27,19 @@ class Inicio extends Component
                     ->orderBy('created_at', 'asc')
                     ->get();
 
-                // Agrupar estudiantes por mes y obtener el nombre del mes en español
-                $studentsPerMonth = $this->students->groupBy(function ($student) {
-                    $monthNumber = $student->created_at->format('m');
-                    $monthName = Carbon::createFromFormat('m', $monthNumber)->locale('es')->monthName;
-                    return ucfirst($monthName);
+                $studentsPerMonthYear = $this->students->groupBy(function ($student) {
+                    $year = $student->created_at->format('Y');
+                    $month = $student->created_at->format('m');
+                    $monthName = Carbon::createFromFormat('m', $month)->locale('es')->monthName;
+                    return "$monthName $year";
                 })->map(function ($group) {
                     return $group->count();
                 });
 
                 // Crear la estructura de datos para enviar a la vista
-                $this->studentData = $studentsPerMonth->map(function ($count, $month) {
+                $this->studentData = $studentsPerMonthYear->map(function ($count, $monthYear) {
                     return [
-                        'month' => $month,
+                        'month_year' => ucfirst($monthYear),
                         'student_count' => $count,
                     ];
                 })->values()->toArray();
