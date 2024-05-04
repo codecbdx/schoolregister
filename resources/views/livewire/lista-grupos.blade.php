@@ -138,31 +138,31 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('grupo')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Group')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Group')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('ciclo')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Cycle')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Cycle')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('modalidad')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Modality')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Modality')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('fecha_corte')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Cut Date')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Cut Date')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('cancelled')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Status')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Status')  }}
                                         </a>
                                     </th>
                                     <th class="text-center">

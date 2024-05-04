@@ -82,37 +82,37 @@
                                 <tr>
                                     <th>
                                         <a wire:click.prevent="sortBy('codigo')" role="button" href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Code')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Code')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('asentamiento')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Settlement')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Settlement')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('tipo_asentamiento')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Settlement Type')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Settlement Type')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('municipio')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Municipality')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Municipality')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('estado')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('State')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('State')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('zona')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Zone')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Zone')  }}
                                         </a>
                                     </th>
                                 </tr>

@@ -469,11 +469,16 @@ class Documentos extends Component
 
     protected function extraerDatosDeCURP($curp)
     {
-        $ano = substr($curp, 4, 2);
-        $mes = substr($curp, 6, 2);
-        $dia = substr($curp, 8, 2);
-        $siglo = $ano >= date('y') ? '19' : '20';
+        try {
+            $ano = substr($curp, 4, 2);
+            $mes = substr($curp, 6, 2);
+            $dia = substr($curp, 8, 2);
+            $siglo = $ano >= date('y') ? '19' : '20';
 
-        return Carbon::createFromFormat('Y-m-d', $siglo . $ano . '-' . $mes . '-' . $dia);
+            return Carbon::createFromFormat('Y-m-d', $siglo . $ano . '-' . $mes . '-' . $dia);
+        } catch (\Exception $e) {
+            // En caso de error, devolver la fecha actual
+            return Carbon::now();
+        }
     }
 }

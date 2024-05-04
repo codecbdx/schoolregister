@@ -139,31 +139,31 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('curp')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('curp')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('curp')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Name')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('correo')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Email Address')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Email Address')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('created_at')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Inscription Date')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Inscription Date')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('status')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Status')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Status')  }}
                                         </a>
                                     </th>
                                     @foreach ($modulePermissions as $modulePermission)

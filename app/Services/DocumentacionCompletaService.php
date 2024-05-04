@@ -33,13 +33,18 @@ class DocumentacionCompletaService
 
     protected function calcularEdadDesdeCURP($curp)
     {
-        $ano = substr($curp, 4, 2);
-        $mes = substr($curp, 6, 2);
-        $dia = substr($curp, 8, 2);
-        $anoCompleto = $ano > date('y') ? '19' . $ano : '20' . $ano;
-        $fechaNacimiento = Carbon::createFromFormat('Y-m-d', $anoCompleto . '-' . $mes . '-' . $dia);
+        try {
+            $ano = substr($curp, 4, 2);
+            $mes = substr($curp, 6, 2);
+            $dia = substr($curp, 8, 2);
+            $anoCompleto = $ano > date('y') ? '19' . $ano : '20' . $ano;
+            $fechaNacimiento = Carbon::createFromFormat('Y-m-d', $anoCompleto . '-' . $mes . '-' . $dia);
 
-        return $fechaNacimiento->age;
+            return $fechaNacimiento->age;
+        } catch (\Exception $e) {
+            // En caso de error, devolver la fecha actual
+            return Carbon::now()->age;
+        }
     }
 
     public function tieneDocumentos($curp)

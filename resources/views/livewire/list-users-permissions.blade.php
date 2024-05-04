@@ -83,25 +83,25 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('user_type_id')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Rol')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Rol')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('route_name')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Route')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Route')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('created_at')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Created at')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Created at')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('updated_at')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Updated at')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Updated at')  }}
                                         </a>
                                     </th>
                                     @foreach ($modulePermissions as $modulePermission)

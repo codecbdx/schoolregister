@@ -109,19 +109,19 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Name')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('created_at')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Created at')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Created at')  }}
                                         </a>
                                     </th>
                                     <th>
                                         <a wire:click.prevent="sortBy('updated_at')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-filter ml-0"></i> {{ __('Updated at')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Updated at')  }}
                                         </a>
                                     </th>
                                     @foreach ($modulePermissions as $modulePermission)

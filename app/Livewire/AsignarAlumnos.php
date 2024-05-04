@@ -43,11 +43,18 @@ class AsignarAlumnos extends Component
             }
             $this->grupo_id = $id;
 
-            $this->conceptos_pago_grupo = Grupos::where('id', $this->grupo_id)->where('cancelled', 0)->first();
-            $this->curso_grupo = Cursos::where('id', $this->conceptos_pago_grupo->curso_id)->where('cancelled', 0)->first();
+            $this->conceptos_pago_grupo = Grupos::where('id', $this->grupo_id)->whereIn('cancelled', [0, 2])->first();
+
+            if ($this->conceptos_pago_grupo) {
+                $this->curso_grupo = Cursos::where('id', $this->conceptos_pago_grupo->curso_id)->where('cancelled', 0)->first();
+            } else {
+                $this->curso_grupo = '';
+            }
+
             $this->list_conceptos_pago = ConceptosPago::where('cancelled', 0)->orderBy('nombre', 'asc')->get();
         }
     }
+
 
     public function export()
     {

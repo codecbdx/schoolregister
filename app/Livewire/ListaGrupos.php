@@ -204,7 +204,7 @@ class ListaGrupos extends Component
         }
 
         $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
-        $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->where('cancelled', 0)->first();
+        $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->whereIn('cancelled', [0, 2])->first();
 
         $descripcion = $customer->descripcion;
         if (substr($descripcion, -1) === '.') {
