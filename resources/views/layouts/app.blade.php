@@ -25,7 +25,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ env('AWS_URL') }}{{ $configuracion->system_icon }}"/>
+    <link rel="shortcut icon" href="{{ asset('storage/') }}/{{ $configuracion->system_icon }}"/>
 </head>
 <body class="sidebar-dark">
 <div class="main-wrapper">
@@ -33,7 +33,7 @@
         <div class="sidebar-header">
             <a href="#" class="sidebar-brand">
                 <div class="logo">
-                    <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}">
+                    <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}">
                 </div>
             </a>
             <div class="sidebar-toggler not-active">
@@ -53,47 +53,7 @@
             </a>
             <div class="navbar-content">
                 <livewire:customer-title/>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown nav-profile">
-                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ env('AWS_URL') }}{{ Auth::user()->user_image }}" alt="user">
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                            <div class="dropdown-header d-flex flex-column align-items-center">
-                                <div class="figure mb-3">
-                                    <img src="{{ env('AWS_URL') }}{{ Auth::user()->user_image }}" alt="user">
-                                </div>
-                                <div class="info text-center">
-                                    <p class="name font-weight-bold mb-0">{{ Str::limit(Auth::user()->name . ' ' . Auth::user()->paternal_lastname . ' ' . Auth::user()->maternal_lastname, 25) }}
-                                    <p class="email text-muted mb-3">{{ Str::limit(Auth::user()->email, 25)  }}</p>
-                                </div>
-                            </div>
-                            <div class="dropdown-body">
-                                <ul class="profile-nav p-0 pt-3">
-                                    <li class="nav-item">
-                                        <a href="{{ route('edit_profile', ['id' => config('app.debug') ?  Auth::user()->id : encrypt( Auth::user()->id)]) }}"
-                                           class="nav-link">
-                                            <i data-feather="edit"></i>
-                                            <span>{{ __('Edit Profile') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('logout') }}" class="nav-link"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            <i data-feather="log-out"></i>
-                                            <span>{{ __('Logout') }}</span>
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                              class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <livewire:nav-user-profile/>
             </div>
         </nav>
         <div class="page-content">

@@ -117,7 +117,7 @@
                                         @if(!$errors->has('image'))
                                             <div class="d-flex justify-content-center align-items-center">
                                                 <img height="246px"
-                                                     src="{{ env('AWS_URL') }}{{$courseImage}}"/>
+                                                     src="{{$courseSignedImage}}"/>
                                             </div>
                                         @endif
                                     @endif

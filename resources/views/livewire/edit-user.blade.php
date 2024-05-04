@@ -204,7 +204,7 @@
                             @else
                                 @if(!$errors->has('image'))
                                     <div class="d-flex justify-content-center align-items-center">
-                                        <img height="180px" src="{{ env('AWS_URL') }}{{$user_image}}"/>
+                                        <img height="180px" src="{{$userSignedImage}}"/>
                                     </div>
                                 @endif
                             @endif

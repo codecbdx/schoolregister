@@ -22,12 +22,12 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ env('AWS_URL') }}{{ $configuracion->system_icon }}"/>
+    <link rel="shortcut icon" href="{{ asset('storage/') }}/{{ $configuracion->system_icon }}"/>
 </head>
 <body class="sidebar-dark">
 <div class="main-wrapper">
     <div class="page-wrapper background-auth full-page"
-         style="background-image: url({{ env('AWS_URL') }}{{ $configuracion->background_login }});">
+         style="background-image: url({{ asset('storage/') }}/{{ $configuracion->background_login }});">
         <div class="page-content d-flex align-items-center justify-content-center">
             @yield('content')
         </div>

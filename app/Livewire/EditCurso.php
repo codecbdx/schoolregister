@@ -3,8 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Cursos;
-use Carbon\Carbon;
-use Illuminate\Validation\Rule;
+use App\Services\S3Service;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -12,19 +11,21 @@ class EditCurso extends Component
 {
     use WithFileUploads;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'responsible' => 'responsable',
         'moodle_code' => 'código de moodle',
     ];
 
-    public $name, $description, $moodle_code, $image, $course_image, $decryptedId;
+    public $name, $description, $moodle_code, $image, $course_image, $courseSignedImage, $decryptedId;
 
-    public function mount($id)
+    public function mount($id, S3Service $s3Service)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
+        $this->s3Service = $s3Service;
         $this->decryptedId = config('app.debug') ? $id : decrypt($id);
 
         $course = Cursos::find($this->decryptedId);
@@ -32,6 +33,9 @@ class EditCurso extends Component
         $this->description = $course->descripcion;
         $this->moodle_code = $course->codigo_moodle;
         $this->course_image = $course->imagen;
+
+        $signedUrl = $this->s3Service->getPreSignedUrl($this->course_image, 1);
+        $this->courseSignedImage = $signedUrl;
     }
 
     public function updatedImage()

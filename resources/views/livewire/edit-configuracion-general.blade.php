@@ -88,7 +88,7 @@
                                 @if(!$errors->has('system_logo'))
                                     <div class="d-flex justify-content-center align-items-center">
                                         <img width="65%"
-                                             src="{{ env('AWS_URL') }}{{ $current_system_logo }}"/>
+                                             src="{{ asset('storage/') }}/{{ $current_system_logo }}"/>
                                     </div>
                                 @endif
                             @endif
@@ -117,7 +117,7 @@
                                 @if(!$errors->has('system_icon'))
                                     <div class="d-flex justify-content-center align-items-center">
                                         <img width="20%"
-                                             src="{{ env('AWS_URL') }}{{ $current_system_icon }}"/>
+                                             src="{{ asset('storage/') }}/{{ $current_system_icon }}"/>
                                     </div>
                                 @endif
                             @endif
@@ -180,7 +180,7 @@
                                 @if(!$errors->has('background_login'))
                                     <div class="d-flex justify-content-center align-items-center">
                                         <img width="65%"
-                                             src="{{ env('AWS_URL') }}{{ $current_background_login }}"/>
+                                             src="{{ asset('storage/') }}/{{ $current_background_login }}"/>
                                     </div>
                                 @endif
                             @endif
@@ -210,7 +210,7 @@
                                 @if(!$errors->has('form_image'))
                                     <div class="d-flex justify-content-center align-items-center">
                                         <img width="40%"
-                                             src="{{ env('AWS_URL') }}{{$current_form_image}}"/>
+                                             src="{{ asset('storage/') }}/{{$current_form_image}}"/>
                                     </div>
                                 @endif
                             @endif

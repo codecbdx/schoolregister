@@ -80,7 +80,7 @@
                         @if(!$errors->has('ine_pdf') and $current_ine_pdf !== '')
                             <div class="d-flex justify-content-center align-items-center">
                                 <!-- Botón para abrir el PDF -->
-                                <a href="{{ env('AWS_URL') }}{{$current_ine_pdf}}" target="_blank"
+                                <a href="{{$userSignedINE}}" target="_blank"
                                    class="btn btn-primary mr-2">
                                     {{ __('Open PDF') }}
                                 </a>
@@ -91,8 +91,8 @@
                         @endif
                     @endif
                     <div
-                        class=" mt-3 alert @error('ine_pdf') alert-danger @else alert-primary @enderror"
-                        role="alert">
+                            class=" mt-3 alert @error('ine_pdf') alert-danger @else alert-primary @enderror"
+                            role="alert">
                         {{ __('Type PDF') }}
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                         @if(!$errors->has('ine_tutor_pdf') and $current_ine_tutor_pdf !== '')
                             <div class="d-flex justify-content-center align-items-center">
                                 <!-- Botón para abrir el PDF -->
-                                <a href="{{ env('AWS_URL') }}{{$current_ine_tutor_pdf}}" target="_blank"
+                                <a href="{{$userSignedINETutor}}" target="_blank"
                                    class="btn btn-primary mr-2">
                                     {{ __('Open PDF') }}
                                 </a>
@@ -136,8 +136,8 @@
                         @endif
                     @endif
                     <div
-                        class="mt-3 alert @error('ine_tutor_pdf') alert-danger @else alert-primary @enderror"
-                        role="alert">
+                            class="mt-3 alert @error('ine_tutor_pdf') alert-danger @else alert-primary @enderror"
+                            role="alert">
                         {{ __('Type PDF') }}
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                     @if(!$errors->has('curp_pdf') and $current_curp_pdf !== '')
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Botón para abrir el PDF -->
-                            <a href="{{ env('AWS_URL') }}{{$current_curp_pdf}}" target="_blank"
+                            <a href="{{$userSignedCURP}}" target="_blank"
                                class="btn btn-primary mr-2">
                                 {{ __('Open PDF') }}
                             </a>
@@ -183,8 +183,8 @@
                     @endif
                 @endif
                 <div
-                    class="mt-3 alert @error('curp_pdf') alert-danger @else alert-primary @enderror"
-                    role="alert">
+                        class="mt-3 alert @error('curp_pdf') alert-danger @else alert-primary @enderror"
+                        role="alert">
                     {{ __('Type PDF') }}
                 </div>
             </div>
@@ -219,7 +219,7 @@
                         @if(!$errors->has('curp_tutor_pdf') and $current_curp_tutor_pdf !== '')
                             <div class="d-flex justify-content-center align-items-center">
                                 <!-- Botón para abrir el PDF -->
-                                <a href="{{ env('AWS_URL') }}{{$current_curp_tutor_pdf}}" target="_blank"
+                                <a href="{{$userSignedCURPTutor}}" target="_blank"
                                    class="btn btn-primary mr-2">
                                     {{ __('Open PDF') }}
                                 </a>
@@ -230,8 +230,8 @@
                         @endif
                     @endif
                     <div
-                        class="mt-3 alert @error('curp_tutor_pdf') alert-danger @else alert-primary @enderror"
-                        role="alert">
+                            class="mt-3 alert @error('curp_tutor_pdf') alert-danger @else alert-primary @enderror"
+                            role="alert">
                         {{ __('Type PDF') }}
                     </div>
                 </div>
@@ -269,7 +269,7 @@
                     @if(!$errors->has('address_pdf') and $current_address_pdf !== '')
                         <div class="d-flex justify-content-center align-items-center">
                             <!-- Botón para abrir el PDF -->
-                            <a href="{{ env('AWS_URL') }}{{$current_address_pdf}}" target="_blank"
+                            <a href="{{$userSignedAddress}}" target="_blank"
                                class="btn btn-primary mr-2">
                                 {{ __('Open PDF') }}
                             </a>
@@ -280,8 +280,8 @@
                     @endif
                 @endif
                 <div
-                    class="mt-3 alert @error('address_pdf') alert-danger @else alert-primary @enderror"
-                    role="alert">
+                        class="mt-3 alert @error('address_pdf') alert-danger @else alert-primary @enderror"
+                        role="alert">
                     {{ __('Type PDF') }}
                 </div>
             </div>

@@ -15,12 +15,14 @@ use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Models\Grupos;
 use App\Models\Cursos;
+use App\Services\S3Service;
 use PDF;
 
 class ListaGrupos extends Component
 {
     use WithPagination;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'grupo' => 'grupo',
         'inicio_periodo' => 'inicio de periodo',
@@ -160,8 +162,10 @@ class ListaGrupos extends Component
     }
 
     #[On('goOn-Print-Credentials-Group')]
-    public function printCredentialsGroup($grupoId)
+    public function printCredentialsGroup($grupoId, S3Service $s3Service)
     {
+        $this->s3Service = $s3Service;
+
         $listAlumnosGrupo = AlumnoGrupo::query()
             ->where('grupo_id', config('app.debug') ? $grupoId : decrypt($grupoId))
             ->where('cancelled', 0)
@@ -193,7 +197,8 @@ class ListaGrupos extends Component
                     ->where('cancelled', 0)
                     ->first();
                 if ($user) {
-                    $alumnoGrupo->user_image = $user->user_image;
+                    $signedUrl = $this->s3Service->getPreSignedUrl($user->user_image !== null ? $user->user_image : 'photos/user.png', 5);
+                    $alumnoGrupo->user_image = $signedUrl;
                 }
             }
         }
@@ -201,10 +206,15 @@ class ListaGrupos extends Component
         $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
         $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->where('cancelled', 0)->first();
 
+        $descripcion = $customer->descripcion;
+        if (substr($descripcion, -1) === '.') {
+            $descripcion = substr($descripcion, 0, -1);
+        }
+
         // Arreglo de datos para pasar a la vista
         $data = [
             'title' => __('Credentials'),
-            'address' => $customer->descripcion,
+            'address' => $descripcion,
             'telephone' => $customer->celular,
             'alumnos' => $listAlumnosGrupo,
             'grupo' => $grupo->grupo,

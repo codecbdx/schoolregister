@@ -6,24 +6,27 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Services\S3Service;
 
 class EditarPerfil extends Component
 {
     use WithFileUploads;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'paternal_lastname' => 'apellido paterno',
         'maternal_lastname' => 'apellido materno',
     ];
 
-    public $nombre, $paternal_lastname, $maternal_lastname, $password, $password_confirmation, $image, $user_image, $decryptedId;
+    public $nombre, $paternal_lastname, $maternal_lastname, $password, $password_confirmation, $image, $userSignedImage, $user_image, $decryptedId;
 
-    public function mount($id)
+    public function mount($id, S3Service $s3Service)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
+        $this->s3Service = $s3Service;
         $this->decryptedId = config('app.debug') ? $id : decrypt($id);
 
         $user = User::find($this->decryptedId);
@@ -31,6 +34,9 @@ class EditarPerfil extends Component
         $this->paternal_lastname = $user->paternal_lastname;
         $this->maternal_lastname = $user->maternal_lastname;
         $this->user_image = $user->user_image;
+
+        $signedUrl = $this->s3Service->getPreSignedUrl($this->user_image, 1);
+        $this->userSignedImage = $signedUrl;
     }
 
     public function updatedImage()
@@ -47,6 +53,8 @@ class EditarPerfil extends Component
 
     public function save()
     {
+        $this->s3Service = new S3Service();
+
         $user = User::find($this->decryptedId);
 
         $messages = [
@@ -76,6 +84,13 @@ class EditarPerfil extends Component
             'maternal_lastname' => trim($this->maternal_lastname),
             'password' => $this->password ? Hash::make($this->password) : $user->password,
             'user_image' => trim($savedFileName),
+        ]);
+
+        $now = now();
+        $signedUrl = $this->s3Service->getPreSignedUrl(trim($savedFileName));
+        session([
+            'user_profile_image_url' => $signedUrl,
+            'url_generation_time' => $now->toDateTimeString()
         ]);
 
         $this->dispatch('userUpdated');

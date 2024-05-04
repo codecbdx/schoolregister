@@ -71,17 +71,17 @@ class EditConfiguracionGeneral extends Component
 
         $this->validate($rules);
 
-        $savedFileSystemLogo = $this->system_logo ? $this->system_logo->store('system-pictures', 's3') : $this->current_system_logo;
-        $savedFileSystemIcon = $this->system_icon ? $this->system_icon->store('system-pictures', 's3') : $this->current_system_icon;
-        $savedFileSystemBackgroundLogin = $this->background_login ? $this->background_login->store('system-pictures', 's3') : $this->current_background_login;
-        $savedFileFormImage = $this->form_image ? $this->form_image->store('system-pictures', 's3') : $this->current_form_image;
+        $savedFileSystemLogo = $this->system_logo ? $this->system_logo->store('system-pictures', 'public') : $this->current_system_logo;
+        $savedFileSystemIcon = $this->system_icon ? $this->system_icon->store('system-pictures', 'public') : $this->current_system_icon;
+        $savedFileSystemBackgroundLogin = $this->background_login ? $this->background_login->store('system-pictures', 'public') : $this->current_background_login;
+        $savedFileFormImage = $this->form_image ? $this->form_image->store('system-pictures', 'public') : $this->current_form_image;
 
         $system->update([
-            'system_name' => trim($this->name),
-            'system_logo' => trim($savedFileSystemLogo),
-            'system_icon' => trim($savedFileSystemIcon),
-            'background_login' => trim($savedFileSystemBackgroundLogin),
-            'form_image' => trim($savedFileFormImage),
+            'system_name' => $this->name,
+            'system_logo' => $savedFileSystemLogo,
+            'system_icon' => $savedFileSystemIcon,
+            'background_login' => $savedFileSystemBackgroundLogin,
+            'form_image' => $savedFileFormImage,
         ]);
 
         $this->redirectRoute('general_configuration');

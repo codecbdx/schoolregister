@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use App\Models\Customers;
 use App\Models\UserTypes;
+use App\Services\S3Service;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,19 +14,21 @@ class EditUser extends Component
 {
     use WithFileUploads;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'paternal_lastname' => 'apellido paterno',
         'maternal_lastname' => 'apellido materno',
     ];
 
-    public $name, $paternal_lastname, $maternal_lastname, $email, $password, $password_confirmation, $user_type, $image, $user_image, $decryptedId, $user_types, $user_customer, $customers, $user_status;
+    public $name, $paternal_lastname, $maternal_lastname, $email, $password, $password_confirmation, $user_type, $image, $user_image, $userSignedImage, $decryptedId, $user_types, $user_customer, $customers, $user_status;
 
-    public function mount($id)
+    public function mount($id, S3Service $s3Service)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
+        $this->s3Service = $s3Service;
         $this->decryptedId = config('app.debug') ? $id : decrypt($id);
 
         $user = User::find($this->decryptedId);
@@ -39,6 +42,9 @@ class EditUser extends Component
         $this->user_customer = $user->customer_id;
         $this->customers = Customers::where('cancelled', 0)->get();
         $this->user_status = $user->cancelled;
+
+        $signedUrl = $this->s3Service->getPreSignedUrl($this->user_image, 1);
+        $this->userSignedImage = $signedUrl;
     }
 
     public function updatedImage()

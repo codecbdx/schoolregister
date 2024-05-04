@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-md-4 pr-md-0">
                         <div class="auth-left-wrapper"
-                             style="background-image: url({{ env('AWS_URL') }}{{ $configuracion->form_image }});">
+                             style="background-image: url({{ asset('storage/') }}/{{ $configuracion->form_image }});">
 
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                             @endif
                             <a href="#" class="noble-ui-logo d-block mb-2">
                                 <div class="logo">
-                                    <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}">
+                                    <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}">
                                 </div>
                             </a>
                             <h5 class="text-muted font-weight-normal mb-4">{{ __('Need to regain access? Reset your password here.') }}</h5>

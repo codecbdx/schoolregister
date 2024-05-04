@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'customer_id' => 1,
             'user_type_id' => 1,
-            'user_image' => 'user.png',
+            'user_image' => 'photos/user.png',
             'cancelled' => 0,
         ]);
     }

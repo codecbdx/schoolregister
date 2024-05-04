@@ -15,13 +15,14 @@ use Livewire\WithPagination;
 use App\Models\Alumnos;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
+use App\Services\S3Service;
 use PDF;
 
 class ListAlumnos extends Component
 {
     use WithPagination;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'fecha_nacimiento' => 'fecha de nacimiento',
         'curp' => 'CURP',
@@ -253,18 +254,29 @@ class ListAlumnos extends Component
     #[On('goOn-Print-Credential-Alumno')]
     public function printCredentialAlumno($alumnoId)
     {
+        $this->s3Service = new s3Service;
+
         // Obtener los datos de la base de datos
         $alumno = Alumnos::query()->where('cancelled', 0)->where('id', config('app.debug') ? $alumnoId : decrypt($alumnoId))->first();
 
         $user = User::where('email', $alumno->correo)->where('cancelled', 0)->first();
+        if ($user) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($user->user_image !== null ? $user->user_image : 'photos/user.png', 5);
+            $user->user_image = $signedUrl;
+        }
 
         $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
+
+        $descripcion = $customer->descripcion;
+        if (substr($descripcion, -1) === '.') {
+            $descripcion = substr($descripcion, 0, -1);
+        }
 
         // Arreglo de datos para pasar a la vista
         $data = [
             'title' => __('Credential'),
             'date' => date('d/m/Y', strtotime('+1 year', strtotime(str_replace('-', '/', $alumno->created_at)))),
-            'address' => $customer->descripcion,
+            'address' => $descripcion,
             'telephone' => $customer->celular,
             'alumno' => $alumno,
             'usuario' => $user,

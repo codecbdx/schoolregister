@@ -2,13 +2,16 @@
 <html>
 <head>
     <title>{{ __('Credential') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
 </head>
 <body style="background: #ffffff;">
 <table style="width: 100%;">
     <tr>
         <td style="text-align: center;">
-            <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}" style="width: 420px;">
+            <div style="width: 100%; height: 80px; display: flex; justify-content: center; align-items: center;">
+                <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}"
+                     style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            </div>
         </td>
     </tr>
     <tr>
@@ -23,14 +26,17 @@
 <div style="width: 400px; height: 260px; margin: 0 auto; border: 1px solid #000!important;">
     <div
         style="width: 400px; height: 90px; margin: 0 auto; border-bottom: 1px solid #000!important; text-align: center;">
-        <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}"
-             style="max-width: 63%; max-height: 63%; margin-top: 3px;">
+        <div
+            style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; margin-top: 3px;">
+            <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}"
+                 style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <p style="width:80%; margin: 0 auto; text-align: center; font-size: 0.8em;">{{ $address }},
             TEL. {{ $telephone }}.</p>
     </div>
     <div style="display: block; float: left; width: 37%; text-align: center;">
         <img
-            src="{{ $usuario && $usuario->user_image ? (env('AWS_URL') . $usuario->user_image) : asset('assets/images/user.png') }}"
+            src="{{ $usuario && $usuario->user_image ? $usuario->user_image : asset('assets/images/user.png') }}"
             style="width: 113px; height: 113px; margin-top: 8px">
         <p style="font-size: 0.9em;">{{ __('Validity') }}</p>
         <p style="font-size: 0.8em;"><b>{{ $date }}</b></p>
@@ -51,14 +57,17 @@
 <div style="width: 400px; height: 260px; margin: 0 auto; margin-top: 20px; border: 1px solid #000!important;">
     <div
         style="width: 400px; height: 90px; margin: 0 auto; border-bottom: 1px solid #000!important; text-align: center;">
-        <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}"
-             style="max-width: 63%; max-height: 63%; margin-top: 3px;">
+        <div
+            style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; margin-top: 3px;">
+            <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}"
+                 style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <p style="width:80%; margin: 0 auto; text-align: center; font-size: 0.8em;">{{ $address }},
             TEL. {{ $telephone }}.</p>
     </div>
     <div style="display: block; float: left; width: 37%; text-align: center;">
         <img
-            src="{{ $usuario && $usuario->user_image ? (env('AWS_URL') . $usuario->user_image) : asset('assets/images/user.png') }}"
+            src="{{ $usuario && $usuario->user_image ? $usuario->user_image : asset('assets/images/user.png') }}"
             style="width: 113px; height: 113px; margin-top: 8px">
         <p style="font-size: 0.9em;">{{ __('Validity') }}</p>
         <p style="font-size: 0.8em;"><b>{{ $date }}</b></p>
@@ -78,14 +87,17 @@
 <div style="width: 400px; height: 260px; margin: 0 auto; margin-top: 20px; border: 1px solid #000!important;">
     <div
         style="width: 400px; height: 90px; margin: 0 auto; border-bottom: 1px solid #000!important; text-align: center;">
-        <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}"
-             style="max-width: 63%; max-height: 63%; margin-top: 3px;">
+        <div
+            style="width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; margin-top: 3px;">
+            <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}"
+                 style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <p style="width:80%; margin: 0 auto; text-align: center; font-size: 0.8em;">{{ $address }},
             TEL. {{ $telephone }}.</p>
     </div>
     <div style="display: block; float: left; width: 37%; text-align: center;">
         <img
-            src="{{ $usuario && $usuario->user_image ? (env('AWS_URL') . $usuario->user_image) : asset('assets/images/user.png') }}"
+            src="{{ $usuario && $usuario->user_image ? $usuario->user_image : asset('assets/images/user.png') }}"
             style="width: 113px; height: 113px; margin-top: 8px">
         <p style="font-size: 0.9em;">{{ __('Validity') }}</p>
         <p style="font-size: 0.8em;"><b>{{ $date }}</b></p>

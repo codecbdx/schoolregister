@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Services\S3Service;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -11,26 +12,39 @@ class EditarPerfilAlumno extends Component
 {
     use WithFileUploads;
 
+    protected $s3Service;
     protected $validationAttributes = [
         'paternal_lastname' => 'apellido paterno',
         'maternal_lastname' => 'apellido materno',
     ];
 
-    public $nombre, $paternal_lastname, $maternal_lastname, $password, $password_confirmation, $image, $user_image, $decryptedId;
+    public $nombre, $paternal_lastname, $maternal_lastname, $password, $password_confirmation, $image, $user_image, $userSignedImage, $decryptedId;
 
-    public function mount($id)
+    public function mount($id, S3Service $s3Service)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
+        $this->s3Service = $s3Service;
         $this->decryptedId = config('app.debug') ? $id : decrypt($id);
 
         $user = User::where('email', $this->decryptedId)->first();
-        $this->nombre = $user->name;
-        $this->paternal_lastname = $user->paternal_lastname;
-        $this->maternal_lastname = $user->maternal_lastname;
-        $this->user_image = $user->user_image;
+
+        if ($user) {
+            $this->nombre = $user->name ?? '';
+            $this->paternal_lastname = $user->paternal_lastname ?? '';
+            $this->maternal_lastname = $user->maternal_lastname ?? '';
+            $this->user_image = $user->user_image ?? 'photos/user.png';
+        } else {
+            $this->nombre = '';
+            $this->paternal_lastname = '';
+            $this->maternal_lastname = '';
+            $this->user_image = 'photos/user.png';
+        }
+
+        $signedUrl = $this->s3Service->getPreSignedUrl($this->user_image, 1);
+        $this->userSignedImage = $signedUrl;
     }
 
     public function updatedImage()
@@ -70,13 +84,15 @@ class EditarPerfilAlumno extends Component
 
         $savedFileName = $this->image ? $this->image->store('photos', 's3') : $this->user_image;
 
-        $user->update([
-            'name' => trim($this->nombre),
-            'paternal_lastname' => trim($this->paternal_lastname),
-            'maternal_lastname' => trim($this->maternal_lastname),
-            'password' => $this->password ? Hash::make($this->password) : $user->password,
-            'user_image' => trim($savedFileName),
-        ]);
+        if ($user) {
+            $user->update([
+                'name' => trim($this->nombre),
+                'paternal_lastname' => trim($this->paternal_lastname),
+                'maternal_lastname' => trim($this->maternal_lastname),
+                'password' => $this->password ? Hash::make($this->password) : $user->password,
+                'user_image' => trim($savedFileName),
+            ]);
+        }
 
         $this->dispatch('userUpdated');
     }

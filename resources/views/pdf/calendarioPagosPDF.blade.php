@@ -2,13 +2,16 @@
 <html>
 <head>
     <title>{{ __('Payment schedule') }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css//style.css') }}">
 </head>
 <body style="background: #ffffff;">
 <table style="width: 100%;">
     <tr>
         <td style="text-align: center;">
-            <img src="{{ env('AWS_URL') }}{{ $configuracion->system_logo }}" style="width: 420px;">
+            <div style="width: 100%; height: 80px; display: flex; justify-content: center; align-items: center;">
+                <img src="{{ asset('storage/') }}/{{ $configuracion->system_logo }}"
+                     style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            </div>
         </td>
     </tr>
     <tr>
