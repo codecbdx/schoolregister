@@ -33,7 +33,6 @@ class AsignarAlumnos extends Component
         if (!auth()->check()) {
             return redirect()->route('login');
         } else {
-            $this->fillOptions();
             $this->select_alumno = true;
             $this->btn_edit = false;
 
@@ -42,6 +41,8 @@ class AsignarAlumnos extends Component
                 $id = decrypt($id);
             }
             $this->grupo_id = $id;
+
+            $this->fillOptions();
 
             $this->conceptos_pago_grupo = Grupos::where('id', $this->grupo_id)->whereIn('cancelled', [0, 2])->first();
 
@@ -77,6 +78,21 @@ class AsignarAlumnos extends Component
 
     protected function fillOptions()
     {
+        $curpsGrupo = AlumnoGrupo::query()
+            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
+            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
+            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
+            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.usuario_moodle', 'alumnos.contrasena_moodle', 'cursos.nombre as curso', 'cursos.codigo_moodle')
+            ->where('alumno_grupo.grupo_id', $this->grupo_id)
+            ->where('alumno_grupo.cancelled', 0)
+            ->where('alumnos.cancelled', 0)
+            ->where('alumnos.status', '!=', 2)
+            ->whereIn('grupos.cancelled', [0, 2])
+            ->where('cursos.cancelled', 0)
+            ->orderBy('alumno_grupo.created_at', 'desc')
+            ->get()
+            ->pluck('curp');
+
         $this->options = Alumnos::query()
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
@@ -91,8 +107,10 @@ class AsignarAlumnos extends Component
             })
             ->where('cancelled', 0)
             ->where('status', '!=', 2)
+            ->whereNotIn('curp', $curpsGrupo)
             ->take(2500)
             ->get();
+
     }
 
     #[On('goOn-Save-Asignar-Alumno')]
@@ -113,6 +131,11 @@ class AsignarAlumnos extends Component
                 // Obtener el conteo de alumnos por grupo que no estén cancelados
                 $conteo_alumnos_por_grupo = AlumnoGrupo::where('grupo_id', $this->grupo_id)
                     ->where('cancelled', 0)
+                    ->whereIn('curp', function ($query) {
+                        $query->select('curp')
+                            ->from('alumnos')
+                            ->where('cancelled', 0);
+                    })
                     ->count();
 
                 // Verificar si el grupo tiene espacio disponible para más alumnos
@@ -166,39 +189,18 @@ class AsignarAlumnos extends Component
     public function render()
     {
         $listAlumnosGrupo = AlumnoGrupo::query()
-            ->where('grupo_id', $this->grupo_id)
-            ->where('cancelled', 0)
-            ->orderBy('created_at', 'desc')
+            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
+            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
+            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
+            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.usuario_moodle', 'alumnos.contrasena_moodle', 'cursos.nombre as curso', 'cursos.codigo_moodle')
+            ->where('alumno_grupo.grupo_id', $this->grupo_id)
+            ->where('alumno_grupo.cancelled', 0)
+            ->where('alumnos.cancelled', 0)
+            ->where('alumnos.status', '!=', 2)
+            ->whereIn('grupos.cancelled', [0, 2])
+            ->where('cursos.cancelled', 0)
+            ->orderBy('alumno_grupo.created_at', 'desc')
             ->paginate(10);
-
-        // Obtener las CURP de los alumnos del grupo actual
-        $curps = $listAlumnosGrupo->pluck('curp');
-
-        // Buscar los registros de alumnos que coinciden con las CURP obtenidas
-        $alumnos = Alumnos::whereIn('curp', $curps)
-            ->get();
-
-        // Asignar los nombres y apellidos a cada alumno del grupo
-        foreach ($listAlumnosGrupo as $alumnoGrupo) {
-            $alumno = $alumnos->where('curp', $alumnoGrupo->curp)->where('cancelled', 0)->where('status', '!=', 2)->first();
-            if ($alumno) {
-                $alumnoGrupo->nombre = $alumno->nombre;
-                $alumnoGrupo->apellido_paterno = $alumno->apellido_paterno;
-                $alumnoGrupo->apellido_materno = $alumno->apellido_materno;
-                $alumnoGrupo->usuario_moodle = $alumno->usuario_moodle;
-                $alumnoGrupo->contrasena_moodle = $alumno->contrasena_moodle;
-
-                $curso = Cursos::join('grupos', 'cursos.id', '=', 'grupos.curso_id')
-                    ->where('grupos.id', $alumnoGrupo->grupo_id)
-                    ->where('grupos.cancelled', 0)
-                    ->where('cursos.cancelled', 0)
-                    ->first();
-                if ($curso) {
-                    $alumnoGrupo->curso = $curso->nombre;
-                    $alumnoGrupo->codigo_moodle = $curso->codigo_moodle;
-                }
-            }
-        }
 
         return view('livewire.asignar-alumnos', [
             'list_alumnos' => $listAlumnosGrupo,
@@ -210,7 +212,7 @@ class AsignarAlumnos extends Component
         if ((__('Inscription') . ' - ' . $this->curso_grupo->nombre) == $value) {
             $this->cargo_alumno = $this->conceptos_pago_grupo->inscripcion;
             $this->fecha_vencimiento_alumno = $this->conceptos_pago_grupo->fecha_corte;
-        } elseif ($this->curso_grupo->nombre == $value) {
+        } elseif ((__('Course') . ' - ' . $this->curso_grupo->nombre) == $value) {
             $this->cargo_alumno = $this->conceptos_pago_grupo->precio_total;
             $this->fecha_vencimiento_alumno = $this->conceptos_pago_grupo->fecha_corte;
         } else {

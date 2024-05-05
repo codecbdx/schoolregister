@@ -85,6 +85,11 @@ class AsignarGrupos extends Component
                 // Obtener el conteo de alumnos por grupo que no estén cancelados
                 $conteo_alumnos_por_grupo = AlumnoGrupo::where('grupo_id', $this->grupo)
                     ->where('cancelled', 0)
+                    ->whereIn('curp', function ($query) {
+                        $query->select('curp')
+                            ->from('alumnos')
+                            ->where('cancelled', 0);
+                    })
                     ->count();
 
                 // Verificar si el grupo tiene espacio disponible para más alumnos

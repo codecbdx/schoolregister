@@ -23,7 +23,7 @@
 
 <h4 class="text-center mt-4 mb-4">{{ $title }} - {{ $grupo }}</h4>
 
-@foreach($alumnos as $index => $alumno)
+@foreach($alumnos->values() as $index => $alumno)
     <div
         style="width: 400px; height: 260px; margin: 0 auto; margin-bottom: 20px; border: 1px solid #000!important;">
         <div

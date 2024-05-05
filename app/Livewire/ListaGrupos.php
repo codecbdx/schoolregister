@@ -150,7 +150,16 @@ class ListaGrupos extends Component
             ->paginate(10);
 
         foreach ($listAlumnosGrupo as $alumnosGrupo) {
-            $alumnoGrupo = AlumnoGrupo::where('grupo_id', $alumnosGrupo->id)->where('cancelled', 0)->count();
+            // Obtener el conteo de alumnos por grupo que no estén cancelados
+            $alumnoGrupo = AlumnoGrupo::where('grupo_id', $alumnosGrupo->id)
+                ->where('cancelled', 0)
+                ->whereIn('curp', function ($query) {
+                    $query->select('curp')
+                        ->from('alumnos')
+                        ->where('cancelled', 0);
+                })
+                ->count();
+
             if ($alumnoGrupo) {
                 $alumnosGrupo->total_alumnos = $alumnoGrupo;
             }
@@ -202,6 +211,9 @@ class ListaGrupos extends Component
                 }
             }
         }
+
+        // Ordenar los alumnos por nombre
+        $listAlumnosGrupo = $listAlumnosGrupo->sortBy('nombre');
 
         $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
         $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->whereIn('cancelled', [0, 2])->first();

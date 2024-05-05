@@ -6,6 +6,7 @@ use App\Models\Alumnos;
 use App\Services\DocumentacionCompletaService;
 use Carbon\Carbon;
 use App\Models\DocumentosAlumno;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -48,7 +49,18 @@ class Documentos extends Component
         if ($documentos !== null && $documentos->archivo_pdf !== null) {
             $this->current_ine_pdf = $documentos->archivo_pdf;
 
-            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_pdf, 30);
+            $cacheKey = 'ine_alumno_' . $this->current_ine_pdf;
+            $cacheDuration = 10; // Duración en minutos
+
+            // Intentar recuperar la URL prefirmada de la caché
+            $signedUrl = Cache::get($cacheKey);
+
+            // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+            if (!$signedUrl) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_pdf, 30);
+                Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+            }
+
             $this->userSignedINE = $signedUrl;
         } else {
             $this->current_ine_pdf = '';
@@ -62,7 +74,18 @@ class Documentos extends Component
         if ($documentos !== null && $documentos->archivo_pdf !== null) {
             $this->current_curp_pdf = $documentos->archivo_pdf;
 
-            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_pdf, 30);
+            $cacheKey = 'curp_alumno_' . $this->current_curp_pdf;
+            $cacheDuration = 10; // Duración en minutos
+
+            // Intentar recuperar la URL prefirmada de la caché
+            $signedUrl = Cache::get($cacheKey);
+
+            // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+            if (!$signedUrl) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_pdf, 30);
+                Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+            }
+
             $this->userSignedCURP = $signedUrl;
         } else {
             $this->current_curp_pdf = '';
@@ -76,7 +99,18 @@ class Documentos extends Component
         if ($documentos !== null && $documentos->archivo_pdf !== null) {
             $this->current_address_pdf = $documentos->archivo_pdf;
 
-            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_address_pdf, 30);
+            $cacheKey = 'comprobante_domicilio_alumno_' . $this->current_address_pdf;
+            $cacheDuration = 10; // Duración en minutos
+
+            // Intentar recuperar la URL prefirmada de la caché
+            $signedUrl = Cache::get($cacheKey);
+
+            // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+            if (!$signedUrl) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($this->current_address_pdf, 30);
+                Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+            }
+
             $this->userSignedAddress = $signedUrl;
         } else {
             $this->current_address_pdf = '';
@@ -90,7 +124,18 @@ class Documentos extends Component
         if ($documentos !== null && $documentos->archivo_pdf !== null) {
             $this->current_ine_tutor_pdf = $documentos->archivo_pdf;
 
-            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_tutor_pdf, 30);
+            $cacheKey = 'ine_tutor_' . $this->current_ine_tutor_pdf;
+            $cacheDuration = 10; // Duración en minutos
+
+            // Intentar recuperar la URL prefirmada de la caché
+            $signedUrl = Cache::get($cacheKey);
+
+            // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+            if (!$signedUrl) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_tutor_pdf, 30);
+                Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+            }
+
             $this->userSignedINETutor = $signedUrl;
         } else {
             $this->current_ine_tutor_pdf = '';
@@ -104,7 +149,18 @@ class Documentos extends Component
         if ($documentos !== null && $documentos->archivo_pdf !== null) {
             $this->current_curp_tutor_pdf = $documentos->archivo_pdf;
 
-            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_tutor_pdf, 30);
+            $cacheKey = 'curp_tutor_' . $this->current_curp_tutor_pdf;
+            $cacheDuration = 10; // Duración en minutos
+
+            // Intentar recuperar la URL prefirmada de la caché
+            $signedUrl = Cache::get($cacheKey);
+
+            // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+            if (!$signedUrl) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_tutor_pdf, 30);
+                Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+            }
+
             $this->userSignedCURPTutor = $signedUrl;
         } else {
             $this->current_curp_tutor_pdf = '';
@@ -185,7 +241,19 @@ class Documentos extends Component
 
         $this->ine_pdf = false;
         $this->current_ine_pdf = $savedFile;
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_pdf, 30);
+
+        $cacheKey = 'ine_alumno_' . $this->current_ine_pdf;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_pdf, 30);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->userSignedINE = $signedUrl;
 
         $this->documentacionCorrecta();
@@ -243,7 +311,19 @@ class Documentos extends Component
 
         $this->curp_pdf = false;
         $this->current_curp_pdf = $savedFile;
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_pdf, 30);
+
+        $cacheKey = 'curp_alumno_' . $this->current_curp_pdf;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_pdf, 30);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->userSignedCURP = $signedUrl;
 
         $this->documentacionCorrecta();
@@ -301,7 +381,19 @@ class Documentos extends Component
 
         $this->address_pdf = false;
         $this->current_address_pdf = $savedFile;
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->current_address_pdf, 30);
+
+        $cacheKey = 'comprobante_domicilio_alumno_' . $this->current_address_pdf;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_address_pdf, 30);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->userSignedAddress = $signedUrl;
 
         $this->documentacionCorrecta();
@@ -359,7 +451,19 @@ class Documentos extends Component
 
         $this->ine_tutor_pdf = false;
         $this->current_ine_tutor_pdf = $savedFile;
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_tutor_pdf, 30);
+
+        $cacheKey = 'ine_tutor_' . $this->current_ine_tutor_pdf;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_ine_tutor_pdf, 30);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->userSignedINETutor = $signedUrl;
 
         $this->documentacionCorrecta();
@@ -417,7 +521,19 @@ class Documentos extends Component
 
         $this->curp_tutor_pdf = false;
         $this->current_curp_tutor_pdf = $savedFile;
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_tutor_pdf, 30);
+
+        $cacheKey = 'curp_tutor_' . $this->current_curp_tutor_pdf;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->current_curp_tutor_pdf, 30);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+        
         $this->userSignedCURPTutor = $signedUrl;
 
         $this->documentacionCorrecta();

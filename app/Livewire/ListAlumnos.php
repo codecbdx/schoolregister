@@ -40,7 +40,7 @@ class ListAlumnos extends Component
 
     protected $listeners = ['goOn-Delete-Alumno' => 'deleteAlumno', 'goOn-Print-Credential-Alumno' => 'printCredentialAlumno'];
 
-    public $sortField = 'created_at', $sortAsc = true, $search = '', $totalEntries, $nombre, $apellido_paterno, $apellido_materno, $curp, $sexo, $fecha_nacimiento, $correo, $telefono_emergencia, $telefono_alumno, $facebook, $instagram, $nombre_tutor, $apellido_paterno_tutor, $apellido_materno_tutor, $parentesco_tutor, $telefono_tutor, $medio_interaccion, $medios, $parentescos, $selectedStatus = null, $modulePermissions, $filtro_fecha_inscripcion;
+    public $sortField = 'created_at', $sortAsc = false, $search = '', $totalEntries, $nombre, $apellido_paterno, $apellido_materno, $curp, $sexo, $fecha_nacimiento, $correo, $telefono_emergencia, $telefono_alumno, $facebook, $instagram, $nombre_tutor, $apellido_paterno_tutor, $apellido_materno_tutor, $parentesco_tutor, $telefono_tutor, $medio_interaccion, $medios, $parentescos, $selectedStatus = null, $modulePermissions, $filtro_fecha_inscripcion;
 
     public function mount()
     {

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -35,7 +36,18 @@ class EditarPerfil extends Component
         $this->maternal_lastname = $user->maternal_lastname;
         $this->user_image = $user->user_image;
 
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->user_image, 1);
+        $cacheKey = 'user_image_' . $this->user_image;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->user_image, 10);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->userSignedImage = $signedUrl;
     }
 

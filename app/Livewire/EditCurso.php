@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Cursos;
 use App\Services\S3Service;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -34,7 +35,18 @@ class EditCurso extends Component
         $this->moodle_code = $course->codigo_moodle;
         $this->course_image = $course->imagen;
 
-        $signedUrl = $this->s3Service->getPreSignedUrl($this->course_image, 1);
+        $cacheKey = 'course_image_' . $this->course_image;
+        $cacheDuration = 10; // Duración en minutos
+
+        // Intentar recuperar la URL prefirmada de la caché
+        $signedUrl = Cache::get($cacheKey);
+
+        // Si no hay una URL prefirmada en la caché, generar una nueva y guardarla en la caché
+        if (!$signedUrl) {
+            $signedUrl = $this->s3Service->getPreSignedUrl($this->course_image, 10);
+            Cache::put($cacheKey, $signedUrl, now()->addMinutes($cacheDuration));
+        }
+
         $this->courseSignedImage = $signedUrl;
     }
 
