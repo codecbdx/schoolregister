@@ -52,10 +52,11 @@
             <p style="font-size: 0.9em; margin-right: 8px;"><b>{{ __('Tutor') }}
                     :</b> {{ $alumno->nombre_tutor }} {{ $alumno->apellido_paterno_tutor }} {{ $alumno->apellido_materno_tutor }}
             </p>
-            <p style="font-size: 0.9em; margin-right: 8px;"><b>{{ __('Emergency Phone') }}:</b> {{ $alumno->telefono_emergencia }}</p>
+            <p style="font-size: 0.9em; margin-right: 8px;"><b>{{ __('Emergency Phone') }}
+                    :</b> {{ $alumno->telefono_emergencia }}</p>
         </div>
     </div>
-    @if((($index + 1) % 3 == 0))
+    @if(($index + 1) % 3 == 0 && ($index + 1) != count($alumnos))
         <table style="width: 100%;">
             <tr>
                 <td style="text-align: center;">
@@ -72,7 +73,6 @@
                 </td>
             </tr>
         </table>
-
         <h4 class="text-center mt-4 mb-4">{{ $title }} - {{ $grupo }}</h4>
     @endif
 @endforeach

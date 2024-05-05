@@ -176,44 +176,29 @@ class ListaGrupos extends Component
         $this->s3Service = $s3Service;
 
         $listAlumnosGrupo = AlumnoGrupo::query()
-            ->where('grupo_id', config('app.debug') ? $grupoId : decrypt($grupoId))
-            ->where('cancelled', 0)
-            ->orderBy('created_at', 'desc')
+            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
+            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
+            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
+            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.nombre_tutor', 'alumnos.apellido_paterno_tutor', 'alumnos.apellido_materno_tutor', 'alumnos.correo', 'alumnos.telefono_emergencia', 'alumnos.created_at', 'cursos.nombre as nombre_curso', 'cursos.codigo_moodle')
+            ->where('alumno_grupo.grupo_id', config('app.debug') ? $grupoId : decrypt($grupoId))
+            ->where('alumno_grupo.cancelled', 0)
+            ->where('alumnos.cancelled', 0)
+            ->where('alumnos.status', '!=', 2)
+            ->whereIn('grupos.cancelled', [0, 2])
+            ->where('cursos.cancelled', 0)
+            ->orderBy('alumnos.nombre', 'asc')
             ->get();
 
-        // Obtener las CURP de los alumnos del grupo actual
-        $curps = $listAlumnosGrupo->pluck('curp');
-
-        // Buscar los registros de alumnos que coinciden con las CURP obtenidas
-        $alumnos = Alumnos::whereIn('curp', $curps)
-            ->get();
-
-        // Asignar los nombres y apellidos a cada alumno del grupo
+        // Obtener las URLs firmadas para las imágenes de los usuarios
         foreach ($listAlumnosGrupo as $alumnoGrupo) {
-            $alumno = $alumnos->where('curp', $alumnoGrupo->curp)->where('cancelled', 0)->where('status', '!=', 2)->first();
-            if ($alumno) {
-                $alumnoGrupo->nombre = $alumno->nombre;
-                $alumnoGrupo->apellido_paterno = $alumno->apellido_paterno;
-                $alumnoGrupo->apellido_materno = $alumno->apellido_materno;
-                $alumnoGrupo->nombre_tutor = $alumno->nombre_tutor;
-                $alumnoGrupo->apellido_paterno_tutor = $alumno->apellido_paterno_tutor;
-                $alumnoGrupo->apellido_materno_tutor = $alumno->apellido_materno_tutor;
-                $alumnoGrupo->correo = $alumno->correo;
-                $alumnoGrupo->telefono_emergencia = $alumno->telefono_emergencia;
-                $alumnoGrupo->vigencia = date('d/m/Y', strtotime('+1 year', strtotime(str_replace('-', '/', $alumno->created_at))));
-
-                $user = User::where('email', $alumno->correo)
-                    ->where('cancelled', 0)
-                    ->first();
-                if ($user) {
-                    $signedUrl = $this->s3Service->getPreSignedUrl($user->user_image !== null ? $user->user_image : 'photos/user.png', 5);
-                    $alumnoGrupo->user_image = $signedUrl;
-                }
+            $user = User::where('email', $alumnoGrupo->correo)
+                ->where('cancelled', 0)
+                ->first();
+            if ($user) {
+                $signedUrl = $this->s3Service->getPreSignedUrl($user->user_image !== null ? $user->user_image : 'photos/user.png', 5);
+                $alumnoGrupo->user_image = $signedUrl;
             }
         }
-
-        // Ordenar los alumnos por nombre
-        $listAlumnosGrupo = $listAlumnosGrupo->sortBy('nombre');
 
         $customer = Customers::where('id', auth()->user()->customer_id)->where('cancelled', 0)->first();
         $grupo = Grupos::where('id', config('app.debug') ? $grupoId : decrypt($grupoId))->whereIn('cancelled', [0, 2])->first();

@@ -715,7 +715,7 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 10000,
+            timer: 16000,
             timerProgressBar: true,
         });
 
