@@ -33,7 +33,7 @@
                                     <input id="email" type="email"
                                            class="form-control @error('email') is-invalid @enderror" name="email"
                                            placeholder="{{ __('Email Address') }}" value="{{ old('email') }}" required
-                                           autocomplete="email" autofocus>
+                                           autocomplete="off" autofocus>
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">

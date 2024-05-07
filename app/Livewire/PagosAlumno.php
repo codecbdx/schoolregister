@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\AlumnoGrupo;
 use App\Models\Alumnos;
 use App\Models\ConceptosPago;
-use App\Models\Cursos;
 use App\Models\Customers;
 use App\Models\Pagos;
 use Illuminate\Support\Facades\Route;
@@ -77,7 +77,9 @@ class PagosAlumno extends Component
                 $this->list_conceptos_pago = ConceptosPago::where('cancelled', 0)->orderBy('nombre', 'asc')->get();
                 $this->list_alumnos_grupo = Alumnos::where('cancelled', 0)->where('status', '!=', 2)->where('curp', '!=', $alumno->curp)->orderBy('nombre', 'asc')->get();
 
-                $this->cursos = Cursos::where('cancelled', 0)->get();
+                $alumnoGrupo = new AlumnoGrupo();
+                $cursos_alumno = $alumnoGrupo->alumnoGrupoCurso($alumno->curp);
+                $this->cursos = $cursos_alumno;
 
                 $this->fecha_actual = date('Y-m-d');
 
@@ -86,6 +88,27 @@ class PagosAlumno extends Component
                 }
             } else {
                 return redirect()->route('login');
+            }
+        }
+    }
+
+    public function updatedConceptoPagoAlumno($value)
+    {
+        $alumnoGrupo = new AlumnoGrupo();
+        $cursos_alumno = $alumnoGrupo->alumnoGrupoCurso($this->curpAlumno);
+
+        if ($cursos_alumno->isNotEmpty()) {
+            foreach ($cursos_alumno as $alumnoGrupo) {
+                if ((__('Inscription') . ' - ' . $alumnoGrupo->nombre) == $value) {
+                    $this->cargo_alumno = $alumnoGrupo->inscripcion;
+                    $this->fecha_vencimiento_alumno = $alumnoGrupo->fecha_corte;
+                } elseif ((__('Course') . ' - ' . $alumnoGrupo->nombre) == $value) {
+                    $this->cargo_alumno = $alumnoGrupo->precio_total;
+                    $this->fecha_vencimiento_alumno = $alumnoGrupo->fecha_corte;
+                } else {
+                    $this->cargo_alumno = '';
+                    $this->fecha_vencimiento_alumno = '';
+                }
             }
         }
     }

@@ -78,20 +78,7 @@ class AsignarAlumnos extends Component
 
     protected function fillOptions()
     {
-        $curpsGrupo = AlumnoGrupo::query()
-            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
-            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
-            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
-            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.usuario_moodle', 'alumnos.contrasena_moodle', 'cursos.nombre as curso', 'cursos.codigo_moodle')
-            ->where('alumno_grupo.grupo_id', $this->grupo_id)
-            ->where('alumno_grupo.cancelled', 0)
-            ->where('alumnos.cancelled', 0)
-            ->where('alumnos.status', '!=', 2)
-            ->whereIn('grupos.cancelled', [0, 2])
-            ->where('cursos.cancelled', 0)
-            ->orderBy('alumno_grupo.created_at', 'desc')
-            ->get()
-            ->pluck('curp');
+        $curpsGrupo = AlumnoGrupo::curpsGrupo($this->grupo_id);
 
         $this->options = Alumnos::query()
             ->when($this->search, function ($query) {
@@ -188,19 +175,8 @@ class AsignarAlumnos extends Component
 
     public function render()
     {
-        $listAlumnosGrupo = AlumnoGrupo::query()
-            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
-            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
-            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
-            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.usuario_moodle', 'alumnos.contrasena_moodle', 'cursos.nombre as curso', 'cursos.codigo_moodle')
-            ->where('alumno_grupo.grupo_id', $this->grupo_id)
-            ->where('alumno_grupo.cancelled', 0)
-            ->where('alumnos.cancelled', 0)
-            ->where('alumnos.status', '!=', 2)
-            ->whereIn('grupos.cancelled', [0, 2])
-            ->where('cursos.cancelled', 0)
-            ->orderBy('alumno_grupo.created_at', 'desc')
-            ->paginate(10);
+        $alumnoGrupo = new AlumnoGrupo();
+        $listAlumnosGrupo = $alumnoGrupo->alumnosGrupo($this->grupo_id)->paginate(10);
 
         return view('livewire.asignar-alumnos', [
             'list_alumnos' => $listAlumnosGrupo,

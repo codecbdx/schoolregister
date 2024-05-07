@@ -28,7 +28,7 @@
                                     <input id="name" type="text"
                                            class="form-control @error('name') is-invalid @enderror" name="name"
                                            placeholder="{{ __('Name') }}" value="{{ old('name') }}" required
-                                           autocomplete="name"
+                                           autocomplete="off"
                                            @if(! $errors->has('paternal_lastname') && ! $errors->has('maternal_lastname') && ! $errors->has('email') && ! $errors->has('password')) autofocus @endif>
 
                                     @error('name')
@@ -46,7 +46,7 @@
                                                    name="paternal_lastname"
                                                    placeholder="{{ __('PaternalLastName') }}"
                                                    value="{{ old('paternal_lastname') }}" required
-                                                   autocomplete="paternal-lastname"
+                                                   autocomplete="off"
                                                    @error('paternal_lastname') autofocus @enderror>
 
                                             @error('paternal_lastname')
@@ -64,7 +64,7 @@
                                                    name="maternal_lastname"
                                                    placeholder="{{ __('MaternalLastName') }}"
                                                    value="{{ old('maternal_lastname') }}" required
-                                                   autocomplete="maternal-lastname"
+                                                   autocomplete="off"
                                                    @error('maternal_lastname') autofocus @enderror>
 
                                             @error('maternal_lastname')
@@ -80,7 +80,7 @@
                                     <input id="email" type="email"
                                            class="form-control @error('email') is-invalid @enderror" name="email"
                                            placeholder="{{ __('Email Address') }}" value="{{ old('email') }}" required
-                                           autocomplete="email" @error('email') autofocus @enderror>
+                                           autocomplete="off" @error('email') autofocus @enderror>
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -96,7 +96,7 @@
                                                    class="form-control @error('password') is-invalid @enderror"
                                                    name="password"
                                                    placeholder="{{ __('Password') }}" required
-                                                   autocomplete="new-password" @error('password') autofocus @enderror>
+                                                   autocomplete="off" @error('password') autofocus @enderror>
 
                                             @error('password')
                                             <span class="invalid-feedback" role="alert">
@@ -112,7 +112,7 @@
                                                    class="form-control"
                                                    name="password_confirmation"
                                                    placeholder="{{ __('Confirm Password') }}" required
-                                                   autocomplete="new-password">
+                                                   autocomplete="off">
                                         </div>
                                     </div><!-- Col -->
                                 </div>

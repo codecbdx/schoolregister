@@ -35,7 +35,7 @@
                                            class="form-control @error('email') is-invalid @enderror" name="email"
                                            placeholder="{{ __('Email Address') }}" value="{{ $email ?? old('email') }}"
                                            required
-                                           autocomplete="email" @if(!$errors->has('password')) autofocus @endif>
+                                           autocomplete="off" @if(!$errors->has('password')) autofocus @endif>
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -49,7 +49,7 @@
                                            class="form-control @error('password') is-invalid @enderror"
                                            name="password"
                                            placeholder="{{ __('Password') }}" required
-                                           autocomplete="new-password" @error('password') autofocus @enderror>
+                                           autocomplete="off" @error('password') autofocus @enderror>
 
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -63,7 +63,7 @@
                                            class="form-control"
                                            name="password_confirmation"
                                            placeholder="{{ __('Confirm Password') }}" required
-                                           autocomplete="new-password">
+                                           autocomplete="off">
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit"

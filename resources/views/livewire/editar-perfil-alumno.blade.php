@@ -39,9 +39,10 @@
                             </div>
                             <div class="col-lg-9">
                                 <input id="nombre" type="text"
-                                       class="form-control @error('nombre') is-invalid @enderror" wire:model="nombre"
+                                       class="form-control @error('nombre') is-invalid @enderror"
+                                       wire:model="nombre"
                                        placeholder="{{ __('Name') }}"
-                                       autocomplete="nombre" autofocus>
+                                       autocomplete="off" autofocus>
 
                                 @error('nombre')
                                 <span class="invalid-feedback" role="alert">
@@ -60,7 +61,7 @@
                                        class="form-control @error('paternal_lastname') is-invalid @enderror"
                                        wire:model="paternal_lastname"
                                        placeholder="{{ __('PaternalLastName') }}"
-                                       autocomplete="paternal-lastname">
+                                       autocomplete="off">
 
                                 @error('paternal_lastname')
                                 <span class="invalid-feedback" role="alert">
@@ -79,7 +80,7 @@
                                        class="form-control @error('maternal_lastname') is-invalid @enderror"
                                        wire:model="maternal_lastname"
                                        placeholder="{{ __('MaternalLastName') }}"
-                                       autocomplete="maternal-lastname">
+                                       autocomplete="off">
 
                                 @error('maternal_lastname')
                                 <span class="invalid-feedback" role="alert">
@@ -111,7 +112,7 @@
                                        class="form-control @error('password') is-invalid @enderror"
                                        wire:model="password"
                                        placeholder="{{ __('New Password') }}"
-                                       autocomplete="new-password">
+                                       autocomplete="off">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -130,7 +131,7 @@
                                        class="form-control"
                                        wire:model="password_confirmation"
                                        placeholder="{{ __('Confirm Password') }}"
-                                       autocomplete="new-password">
+                                       autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -193,7 +194,7 @@
 </div>
 <script>
     document.querySelectorAll('.btn-back').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             window.history.back();
         });
     });

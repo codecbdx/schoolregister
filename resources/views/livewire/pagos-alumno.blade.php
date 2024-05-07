@@ -292,6 +292,16 @@
                                         <select
                                             class="form-control" id="concepto_pago_alumno" style="width: 100%;">
                                             <option value="" selected>{{ __('Select Payment Concept') }}</option>
+                                            @foreach($cursos as $curso)
+                                                <option
+                                                    value="{{ __('Inscription') }} - {{ $curso->nombre }}">{{ __('Inscription') }}
+                                                    - {{ $curso->nombre }}</option>
+                                            @endforeach
+                                            @foreach($cursos as $curso)
+                                                <option
+                                                    value="{{ __('Course') }} - {{ $curso->nombre }}">{{ __('Course') }}
+                                                    - {{ $curso->nombre }}</option>
+                                            @endforeach
                                             @foreach($list_conceptos_pago as $concepto_pago)
                                                 <option
                                                     value="{{ $concepto_pago->nombre }}">{{ $concepto_pago->nombre }}</option>
@@ -402,16 +412,17 @@
                                             <option value="" selected>{{ __('Select Payment Concept') }}</option>
                                             @foreach($cursos as $curso)
                                                 <option
-                                                    value="{{ $curso->nombre }}">{{ $curso->nombre }}</option>
+                                                    value="{{ __('Inscription') }} - {{ $curso->nombre }}">{{ __('Inscription') }}
+                                                    - {{ $curso->nombre }}</option>
+                                            @endforeach
+                                            @foreach($cursos as $curso)
+                                                <option
+                                                    value="{{ __('Course') }} - {{ $curso->nombre }}">{{ __('Course') }}
+                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                             @foreach($list_conceptos_pago as $concepto_pago)
                                                 <option
                                                     value="{{ $concepto_pago->nombre }}">{{ $concepto_pago->nombre }}</option>
-                                            @endforeach
-                                            @foreach($cursos as $curso)
-                                                <option
-                                                    value="{{ __('Inscription') }} - {{ $curso->nombre }}">{{ __('Inscription') }}
-                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>

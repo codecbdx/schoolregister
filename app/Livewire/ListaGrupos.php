@@ -175,19 +175,8 @@ class ListaGrupos extends Component
     {
         $this->s3Service = $s3Service;
 
-        $listAlumnosGrupo = AlumnoGrupo::query()
-            ->join('alumnos', 'alumnos.curp', '=', 'alumno_grupo.curp')
-            ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
-            ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
-            ->select('alumno_grupo.*', 'alumnos.nombre', 'alumnos.apellido_paterno', 'alumnos.apellido_materno', 'alumnos.nombre_tutor', 'alumnos.apellido_paterno_tutor', 'alumnos.apellido_materno_tutor', 'alumnos.correo', 'alumnos.telefono_emergencia', 'alumnos.created_at', 'cursos.nombre as nombre_curso', 'cursos.codigo_moodle')
-            ->where('alumno_grupo.grupo_id', config('app.debug') ? $grupoId : decrypt($grupoId))
-            ->where('alumno_grupo.cancelled', 0)
-            ->where('alumnos.cancelled', 0)
-            ->where('alumnos.status', '!=', 2)
-            ->whereIn('grupos.cancelled', [0, 2])
-            ->where('cursos.cancelled', 0)
-            ->orderBy('alumnos.nombre', 'asc')
-            ->get();
+        $alumnoGrupo = new AlumnoGrupo();
+        $listAlumnosGrupo = $alumnoGrupo->alumnosGrupoCurso(config('app.debug') ? $grupoId : decrypt($grupoId));
 
         // Obtener las URLs firmadas para las imágenes de los usuarios
         foreach ($listAlumnosGrupo as $alumnoGrupo) {
