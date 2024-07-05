@@ -64,13 +64,13 @@ class AlumnoGrupo extends Model
     public function alumnoGrupoCurso($CURP)
     {
         return $this
-            ->select('cursos.nombre', 'grupos.fecha_corte', 'grupos.inscripcion', 'grupos.precio_total')
+            ->select('cursos.nombre', 'grupos.grupo', 'grupos.modalidad', 'grupos.fecha_corte', 'grupos.inscripcion', 'grupos.precio_total')
             ->leftJoin('grupos', 'grupos.id', '=', 'alumno_grupo.grupo_id')
             ->leftJoin('cursos', 'cursos.id', '=', 'grupos.curso_id')
             ->where('alumno_grupo.curp', $CURP)
             ->where('alumno_grupo.cancelled', 0)
             ->whereIn('grupos.cancelled', [0, 2])
-            ->where('cursos.cancelled', 0)
+            ->whereIn('cursos.cancelled', [0, 1])
             ->orderBy('cursos.nombre', 'asc')
             ->get();
     }

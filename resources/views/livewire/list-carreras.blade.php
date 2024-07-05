@@ -109,7 +109,7 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Career')  }}
                                         </a>
                                     </th>
                                     <th>
@@ -213,11 +213,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ __('Career') }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre_create') is-invalid @enderror"
                                                    wire:model="nombre_create"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ __('Career') }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre_create')
                                             <span class="invalid-feedback" role="alert">
@@ -258,11 +258,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ __('Career') }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre') is-invalid @enderror"
                                                    wire:model="nombre"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ __('Career') }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre')
                                             <span class="invalid-feedback" role="alert">

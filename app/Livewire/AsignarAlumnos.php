@@ -61,7 +61,7 @@ class AsignarAlumnos extends Component
     {
         $nombre_grupo = Grupos::where('id', $this->grupo_id)->where('cancelled', 0)->first();
 
-        return Excel::download(new AlumnoGrupoExport($this->grupo_id), 'Lista de Alumnos Grupo - ' . $nombre_grupo->grupo . '.xlsx');
+        return Excel::download(new AlumnoGrupoExport($this->grupo_id), 'Lista de Alumnos Grupo - ' . $nombre_grupo->grupo . ' (' . $nombre_grupo->modalidad . ')' . '.xlsx');
     }
 
     public function updatedSearch()

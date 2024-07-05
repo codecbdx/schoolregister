@@ -145,11 +145,13 @@
                                                 @php
                                                     $totalAbono = 0;
                                                 @endphp
+
                                                 @foreach ($list_conceptos_pago_alumnos as $concepto_pago_alumno)
                                                     @php
                                                         $totalAbono += $concepto_pago_alumno->abono; // Sumar abonos
                                                     @endphp
                                                 @endforeach
+
                                                 @php
                                                     if ($totalAbono < 0) {
                                                         $displayAbono = number_format(abs($totalAbono), 2);
@@ -168,9 +170,12 @@
                                                         $icon = '';
                                                     }
                                                 @endphp
+
                                                 <h5 class="mb-2 {{ $abonoStyle }}">
                                                     {{ $sign }}{{ $displayAbono }}
-                                                    <i data-feather="{{ $icon }}" class="icon-sm mb-1"></i>
+                                                    @if($icon)
+                                                        <i data-feather="{{ $icon }}" class="icon-sm mb-1"></i>
+                                                    @endif
                                                 </h5>
                                             </div>
                                         </div>

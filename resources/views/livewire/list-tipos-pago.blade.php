@@ -1,11 +1,11 @@
-@section('title', __('Graduate Profiles'))
+@section('title', __('Payment Types'))
 
 <div>
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active">{{ __('Configuration') }}</li>
             <li class="breadcrumb-item" aria-current="page"><a class="text-facebook"
-                                                               href="{{ route('areas') }}">{{ __('Graduate Profiles') }}</a>
+                                                               href="{{ route('payment_types') }}">{{ __('Payment Types') }}</a>
             </li>
         </ol>
     </nav>
@@ -24,22 +24,22 @@
                         </div>
                     </div>
                     <input wire:model.live="search" class="form-control" type="text"
-                           placeholder="{{ __('Search...') }}" autofocus autocomplete="search-areas">
+                           placeholder="{{ __('Search...') }}" autofocus autocomplete="search-payment_types">
                 </div>
             </div>
         </div>
         @foreach ($modulePermissions as $modulePermission)
-            @if($modulePermission->route_name === 'create_area')
+            @if($modulePermission->route_name === 'create_payment_type')
                 <div class="col-lg-6 col-md-4 col-sm-5 d-flex flex-column justify-content-center align-items-end">
-                    <button wire:click="$dispatch('open-create-area-modal')"
+                    <button wire:click="$dispatch('open-create-payment-type-modal')"
                             class="d-none d-sm-block btn btn-success btn-icon-text">
-                        <i class="mdi mdi-clipboard-text mr-2"></i>
-                        {{ __('Create Graduate Profile') }}
+                        <i class="mdi mdi-counter mr-2"></i>
+                        {{ __('Create Payment Type') }}
                     </button>
-                    <button wire:click="$dispatch('open-create-area-modal')"
+                    <button wire:click="$dispatch('open-create-payment-type-modal')"
                             class="d-block d-sm-none btn btn-success btn-icon-text w-100 mt-4">
-                        <i class="mdi mdi-clipboard-text mr-2"></i>
-                        {{ __('Create Graduate Profile') }}
+                        <i class="mdi mdi-counter mr-2"></i>
+                        {{ __('Create Payment Type') }}
                     </button>
                 </div>
             @endif
@@ -49,7 +49,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    @if (empty($search) && $listAreas->count() == 0)
+                    @if (empty($search) && $listPaymentTypes->count() == 0)
                         <div class="alert alert-primary-muted" role="alert">
                             <h4 class="alert-heading">{{ __('No records found!') }}</h4>
                             <p>{{ __('No records have been added to the database yet. We suggest creating the first record.') }}</p>
@@ -58,37 +58,37 @@
                                 <img src="{{ asset('assets/images/404.svg') }}" class="w-75 mt-2 mb-2">
                             </div>
                         </div>
-                    @elseif ($listAreas->count())
+                    @elseif ($listPaymentTypes->count())
                         <div class="row">
                             <div class="col">
                                 <p class="mb-3">
                                     @if($totalEntries > 0)
                                         {{ __('Showing') }}
-                                        @if(!$listAreas->firstItem())
-                                            {{ $listAreas->firstItem() }}
+                                        @if(!$listPaymentTypes->firstItem())
+                                            {{ $listPaymentTypes->firstItem() }}
                                         @else
                                             {{ __('of') }}
                                         @endif
-                                        {{ $listAreas->firstItem() }} {{ __('to') }} {{ $listAreas->lastItem() }} {{ __('of') }} {{ $listAreas->total() }} {{ __('entries') }}
-                                    @elseif($listAreas->total() >= 0)
+                                        {{ $listPaymentTypes->firstItem() }} {{ __('to') }} {{ $listPaymentTypes->lastItem() }} {{ __('of') }} {{ $listPaymentTypes->total() }} {{ __('entries') }}
+                                    @elseif($listPaymentTypes->total() >= 0)
                                         {{ __('Showing') }}
-                                        @if(!$listAreas->firstItem())
-                                            {{ $listAreas->firstItem() }}
+                                        @if(!$listPaymentTypes->firstItem())
+                                            {{ $listPaymentTypes->firstItem() }}
                                         @else
                                             {{ __('of') }}
                                         @endif
-                                        @if($listAreas->firstItem())
-                                            {{ $listAreas->firstItem() }}
+                                        @if($listPaymentTypes->firstItem())
+                                            {{ $listPaymentTypes->firstItem() }}
                                         @else
                                             0
                                         @endif
                                         {{ __('to') }}
-                                        @if($listAreas->lastItem())
-                                            {{ $listAreas->lastItem() }}
+                                        @if($listPaymentTypes->lastItem())
+                                            {{ $listPaymentTypes->lastItem() }}
                                         @else
                                             0
                                         @endif
-                                        {{ __('of') }} {{ $listAreas->total() }} {{ __('entries') }}
+                                        {{ __('of') }} {{ $listPaymentTypes->total() }} {{ __('entries') }}
                                         @if($totalEntries > 0)
                                             ({{ __('filtered from') }} {{ $totalEntries }} {{ __('entries') }})
                                         @endif
@@ -96,7 +96,8 @@
                                 </p>
                             </div>
                             <div class="col text-right">
-                                <button id="downloadFile" wire:click="export" type="button" class="btn btn-success btn-icon"
+                                <button id="downloadFile" wire:click="export" type="button"
+                                        class="btn btn-success btn-icon"
                                         data-toggle="tooltip" data-placement="top" title="{{ __('Export') }}">
                                     <i class="mdi mdi-download"></i>
                                 </button>
@@ -109,7 +110,7 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Graduate Profile')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Payment Type')  }}
                                         </a>
                                     </th>
                                     <th>
@@ -125,12 +126,12 @@
                                         </a>
                                     </th>
                                     @foreach ($modulePermissions as $modulePermission)
-                                        @if($modulePermission->route_name === 'edit_area')
+                                        @if($modulePermission->route_name === 'edit_payment_type')
                                             <th>
                                                 {{ __('Edit')  }}
                                             </th>
                                         @endif
-                                        @if($modulePermission->route_name === 'delete_area')
+                                        @if($modulePermission->route_name === 'delete_payment_type')
                                             <th>
                                                 {{ __('Delete')  }}
                                             </th>
@@ -139,28 +140,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($listAreas as $area)
+                                @foreach ($listPaymentTypes as $paymentType)
                                     <tr>
                                         <td>
-                                            {{ Str::limit($area->nombre, 30) }}
+                                            {{ Str::limit($paymentType->nombre, 30) }}
                                         </td>
-                                        <td>{{  date('d-m-Y', strtotime($area->created_at)) }}</td>
-                                        <td>{{  date('d-m-Y', strtotime($area->updated_at)) }}</td>
+                                        <td>{{  date('d-m-Y', strtotime($paymentType->created_at)) }}</td>
+                                        <td>{{  date('d-m-Y', strtotime($paymentType->updated_at)) }}</td>
                                         @foreach ($modulePermissions as $modulePermission)
-                                            @if($modulePermission->route_name === 'edit_area')
+                                            @if($modulePermission->route_name === 'edit_payment_type')
                                                 <td>
                                                     <button
-                                                        wire:click="loadArea('{{ config('app.debug') ? $area->id : encrypt($area->id) }}')"
+                                                        wire:click="loadPaymentType('{{ config('app.debug') ? $paymentType->id : encrypt($paymentType->id) }}')"
                                                         class="btn btn-linkedin btn-icon-text mb-1 mb-md-0">
                                                         <i class="mdi mdi-lead-pencil mr-2"></i>
                                                         {{ __('Edit') }}
                                                     </button>
                                                 </td>
                                             @endif
-                                            @if($modulePermission->route_name === 'delete_area')
+                                            @if($modulePermission->route_name === 'delete_payment_type')
                                                 <td>
                                                     <button
-                                                        wire:click="$dispatch('delete-prompt-area', '{{ config('app.debug') ? $area->id : encrypt($area->id) }}')"
+                                                        wire:click="$dispatch('delete-prompt-payment-type', '{{ config('app.debug') ? $paymentType->id : encrypt($paymentType->id) }}')"
                                                         type="button"
                                                         class="btn btn-danger btn-icon-text mb-1 mb-md-0">
                                                         <i class="mdi mdi-delete mr-2"></i>
@@ -187,7 +188,7 @@
                 </div>
                 @if ($totalEntries > 0)
                     <div class="col mb-2">
-                        {{ $listAreas->links() }}
+                        {{ $listPaymentTypes->links() }}
                     </div>
                 @endif
             </div>
@@ -195,28 +196,29 @@
     </div>
 
     @foreach ($modulePermissions as $modulePermission)
-        @if($modulePermission->route_name === 'create_area')
-            <div wire:ignore.self class="modal fade" id="createArea" data-backdrop="static" tabindex="-1" role="dialog"
-                 aria-labelledby="createAreaLabel"
+        @if($modulePermission->route_name === 'create_payment_type')
+            <div wire:ignore.self class="modal fade" id="createPaymentType" data-backdrop="static" tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="createPaymentTypeLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createAreaLabel">{{ __('Create Graduate Profile') }}</h5>
+                            <h5 class="modal-title" id="createPaymentTypeLabel">{{ __('Create Payment Type') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form wire:submit="createArea">
+                        <form wire:submit="createPaymentType">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Graduate Profile'))) }}</label>
+                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Payment Type'))) }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre_create') is-invalid @enderror"
                                                    wire:model="nombre_create"
-                                                   placeholder="{{ ucfirst(strtolower(__('Graduate Profile'))) }}"
+                                                   placeholder="{{ ucfirst(strtolower(__('Payment Type'))) }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre_create')
                                             <span class="invalid-feedback" role="alert">
@@ -229,7 +231,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success btn-icon-text">
-                                    <i class="mdi mdi-clipboard-text mr-2"></i>{{ __('Create') }}
+                                    <i class="mdi mdi-counter mr-2"></i>{{ __('Create') }}
                                 </button>
                                 <button type="button" class="btn btn-danger btn-icon-text" data-dismiss="modal">
                                     <i class="mdi mdi-window-close mr-2"></i>{{ __('Cancel') }}
@@ -240,28 +242,28 @@
                 </div>
             </div>
         @endif
-        @if($modulePermission->route_name === 'edit_area')
-            <div wire:ignore.self class="modal fade" id="editArea" data-backdrop="static" tabindex="-1" role="dialog"
-                 aria-labelledby="editAreaLabel"
+        @if($modulePermission->route_name === 'edit_payment_type')
+            <div wire:ignore.self class="modal fade" id="editPaymentType" data-backdrop="static" tabindex="-1" role="dialog"
+                 aria-labelledby="editPaymentTypeLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editAreaLabel">{{ __('Update Graduate Profile') }}</h5>
+                            <h5 class="modal-title" id="editPaymentTypeLabel">{{ __('Update Payment Type') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form wire:submit="editArea">
+                        <form wire:submit="editPaymentType">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Graduate Profile'))) }}</label>
+                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Payment Type'))) }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre') is-invalid @enderror"
                                                    wire:model="nombre"
-                                                   placeholder="{{ ucfirst(strtolower(__('Graduate Profile'))) }}"
+                                                   placeholder="{{ ucfirst(strtolower(__('Payment Type'))) }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre')
                                             <span class="invalid-feedback" role="alert">
@@ -274,7 +276,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-linkedin btn-icon-text">
-                                    <i class="mdi mdi-clipboard-text mr-2"></i>{{ __('Update') }}
+                                    <i class="mdi mdi-counter mr-2"></i>{{ __('Update') }}
                                 </button>
                                 <button type="button" class="btn btn-danger btn-icon-text" data-dismiss="modal">
                                     <i class="mdi mdi-window-close mr-2"></i>{{ __('Cancel') }}
@@ -289,23 +291,23 @@
 </div>
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script>
-    window.addEventListener('open-create-area-modal', event => {
-        $('#createArea').modal('show');
+    window.addEventListener('open-create-payment-type-modal', event => {
+        $('#createPaymentType').modal('show');
     });
 
-    window.addEventListener('close-create-area-modal', event => {
-        $('#createArea').modal('hide');
+    window.addEventListener('close-create-payment-type-modal', event => {
+        $('#createPaymentType').modal('hide');
     });
 
-    window.addEventListener('open-edit-area-modal', event => {
-        $('#editArea').modal('show');
+    window.addEventListener('open-edit-payment-type-modal', event => {
+        $('#editPaymentType').modal('show');
     });
 
-    window.addEventListener('close-edit-area-modal', event => {
-        $('#editArea').modal('hide');
+    window.addEventListener('close-edit-payment-type-modal', event => {
+        $('#editPaymentType').modal('hide');
     });
 
-    window.addEventListener('areaCreated', () => {
+    window.addEventListener('paymentTypeCreated', () => {
         Swal.fire({
             title: '{{ __('Created') }}',
             text: '{{ __('Register Created') }}',
@@ -314,7 +316,7 @@
         });
     });
 
-    window.addEventListener('areaUpdated', () => {
+    window.addEventListener('paymentTypeUpdated', () => {
         Swal.fire({
             title: '{{ __('Updated') }}',
             text: '{{ __('Register Updated') }}',
@@ -324,7 +326,7 @@
     });
 
     document.addEventListener('livewire:initialized', () => {
-    @this.on('delete-prompt-area', areaId => {
+    @this.on('delete-prompt-payment-type', paymentTypeId => {
         Swal.fire({
             title: '{{ __('Are you sure?') }}',
             text: '{{ __("You won't be able to revert this!") }}',
@@ -336,7 +338,7 @@
             allowOutsideClick: false,
         }).then((result) => {
             if (result.isConfirmed) {
-            @this.dispatch('goOn-Delete-Area', {areaId: areaId})
+            @this.dispatch('goOn-Delete-Payment-Type', {paymentTypeId: paymentTypeId})
 
             @this.on('deleted', (event) => {
                 Swal.fire({

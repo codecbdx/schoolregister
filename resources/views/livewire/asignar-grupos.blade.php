@@ -83,7 +83,7 @@
                         @endphp
                         @if (!$contains)
                             <option
-                                value="{{ $option->id }}">{{ $option->grupo }} ({{ $option->modalidad }})
+                                value="{{ $option->id }}">{{ $option->grupo }} - {{ $option->curso_nombre }} ({{ $option->modalidad }})
                             </option>
                         @endif
                     @endforeach

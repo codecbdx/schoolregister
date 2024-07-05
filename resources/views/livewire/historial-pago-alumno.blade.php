@@ -304,12 +304,12 @@
                                             @foreach($cursos as $curso)
                                                 <option
                                                     value="{{ __('Inscription') }} - {{ $curso->nombre }}">{{ __('Inscription') }}
-                                                    - {{ $curso->nombre }} ({{ $curso->grupo }} - {{ $curso->modalidad }})</option>
+                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                             @foreach($cursos as $curso)
                                                 <option
                                                     value="{{ __('Course') }} - {{ $curso->nombre }}">{{ __('Course') }}
-                                                    - {{ $curso->nombre }} ({{ $curso->grupo }} - {{ $curso->modalidad }})</option>
+                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                             @foreach($list_conceptos_pago as $concepto_pago)
                                                 <option
@@ -422,12 +422,12 @@
                                             @foreach($cursos as $curso)
                                                 <option
                                                     value="{{ __('Inscription') }} - {{ $curso->nombre }}">{{ __('Inscription') }}
-                                                    - {{ $curso->nombre }} ({{ $curso->grupo }} - {{ $curso->modalidad }})</option>
+                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                             @foreach($cursos as $curso)
                                                 <option
                                                     value="{{ __('Course') }} - {{ $curso->nombre }}">{{ __('Course') }}
-                                                    - {{ $curso->nombre }} ({{ $curso->grupo }} - {{ $curso->modalidad }})</option>
+                                                    - {{ $curso->nombre }}</option>
                                             @endforeach
                                             @foreach($list_conceptos_pago as $concepto_pago)
                                                 <option

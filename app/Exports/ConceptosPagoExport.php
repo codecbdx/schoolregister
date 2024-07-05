@@ -28,13 +28,13 @@ class ConceptosPagoExport implements FromCollection, WithHeadings, WithMapping, 
     }
 
     /**
-     * @var ConceptosPago $area
+     * @var ConceptosPago $conceptos
      */
-    public function map($area): array
+    public function map($conceptos): array
     {
         return [
-            $area->id,
-            $area->nombre,
+            $conceptos->id,
+            $conceptos->nombre,
         ];
     }
 

@@ -35,7 +35,6 @@
             <button wire:click="$dispatch('set-curp')"
                     class="d-block d-sm-none btn btn-success btn-icon-text w-100 mt-3">
                 <i class="mdi mdi-bank mr-2"></i>
-                {{ __('Add') }}
             </button>
         </div>
         <div
@@ -49,7 +48,6 @@
             <button wire:click="$dispatch('save-update-prompt-universidad-alumno')"
                     class="d-block d-sm-none btn btn-linkedin btn-icon-text w-100 mt-3">
                 <i class="mdi mdi-bank mr-2"></i>
-                {{ __('Update') }}
             </button>
         </div>
     </div>

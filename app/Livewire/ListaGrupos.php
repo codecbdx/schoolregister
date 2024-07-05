@@ -203,7 +203,7 @@ class ListaGrupos extends Component
             'address' => $descripcion,
             'telephone' => $customer->celular,
             'alumnos' => $listAlumnosGrupo,
-            'grupo' => $grupo->grupo,
+            'grupo' => $grupo->grupo . ' (' . $grupo->modalidad . ')',
         ];
 
         // Cargar la vista PDF y pasarle los datos
@@ -212,6 +212,6 @@ class ListaGrupos extends Component
         // Descargar el PDF generado
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, __('Credentials') . ' - ' . $grupo->grupo . '.pdf');
+        }, __('Credentials') . ' - ' . $grupo->grupo . ' (' . $grupo->modalidad . ')' . '.pdf');
     }
 }

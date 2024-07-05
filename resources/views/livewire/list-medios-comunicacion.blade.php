@@ -96,7 +96,8 @@
                                 </p>
                             </div>
                             <div class="col text-right">
-                                <button id="downloadFile" wire:click="export" type="button" class="btn btn-success btn-icon"
+                                <button id="downloadFile" wire:click="export" type="button"
+                                        class="btn btn-success btn-icon"
                                         data-toggle="tooltip" data-placement="top" title="{{ __('Export') }}">
                                     <i class="mdi mdi-download"></i>
                                 </button>
@@ -109,7 +110,7 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Mean Interaction') }}
                                         </a>
                                     </th>
                                     <th>
@@ -150,8 +151,8 @@
                                             @if($modulePermission->route_name === 'edit_mean_interaction')
                                                 <td>
                                                     <button
-                                                        wire:click="loadMean('{{ config('app.debug') ? $mean->id : encrypt($mean->id) }}')"
-                                                        class="btn btn-linkedin btn-icon-text mb-1 mb-md-0">
+                                                            wire:click="loadMean('{{ config('app.debug') ? $mean->id : encrypt($mean->id) }}')"
+                                                            class="btn btn-linkedin btn-icon-text mb-1 mb-md-0">
                                                         <i class="mdi mdi-lead-pencil mr-2"></i>
                                                         {{ __('Edit') }}
                                                     </button>
@@ -160,9 +161,9 @@
                                             @if($modulePermission->route_name === 'delete_mean_interaction')
                                                 <td>
                                                     <button
-                                                        wire:click="$dispatch('delete-prompt-mean', '{{ config('app.debug') ? $mean->id : encrypt($mean->id) }}')"
-                                                        type="button"
-                                                        class="btn btn-danger btn-icon-text mb-1 mb-md-0">
+                                                            wire:click="$dispatch('delete-prompt-mean', '{{ config('app.debug') ? $mean->id : encrypt($mean->id) }}')"
+                                                            type="button"
+                                                            class="btn btn-danger btn-icon-text mb-1 mb-md-0">
                                                         <i class="mdi mdi-delete mr-2"></i>
                                                         {{ __('Delete') }}
                                                     </button>
@@ -212,11 +213,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Mean Interaction'))) }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre_create') is-invalid @enderror"
                                                    wire:model="nombre_create"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ ucfirst(strtolower(__('Mean Interaction'))) }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre_create')
                                             <span class="invalid-feedback" role="alert">
@@ -258,11 +259,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ ucfirst(strtolower(__('Mean Interaction'))) }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre') is-invalid @enderror"
                                                    wire:model="nombre"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ ucfirst(strtolower(__('Mean Interaction'))) }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre')
                                             <span class="invalid-feedback" role="alert">

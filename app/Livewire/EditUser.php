@@ -73,6 +73,8 @@ class EditUser extends Component
 
     public function save()
     {
+        $this->s3Service = new S3Service();
+
         $user = User::find($this->decryptedId);
 
         $messages = [
@@ -112,6 +114,15 @@ class EditUser extends Component
             'customer_id' => trim($this->user_customer),
             'cancelled' => trim($this->user_status),
         ]);
+
+        if (trim(auth()->user()->email) === trim($this->email)) {
+            $now = now();
+            $signedUrl = $this->s3Service->getPreSignedUrl(trim($savedFileName));
+            session([
+                'user_profile_image_url' => $signedUrl,
+                'url_generation_time' => $now->toDateTimeString()
+            ]);
+        }
 
         $this->redirectRoute('users');
     }

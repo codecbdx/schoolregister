@@ -73,6 +73,8 @@ class EditarPerfilAlumno extends Component
 
     public function save()
     {
+        $this->s3Service = new S3Service();
+
         $user = User::where('email', $this->decryptedId)->first();
 
         $messages = [
@@ -103,6 +105,15 @@ class EditarPerfilAlumno extends Component
                 'maternal_lastname' => trim($this->maternal_lastname),
                 'password' => $this->password ? Hash::make($this->password) : $user->password,
                 'user_image' => trim($savedFileName),
+            ]);
+        }
+
+        if (trim(auth()->user()->email) === trim($this->decryptedId)) {
+            $now = now();
+            $signedUrl = $this->s3Service->getPreSignedUrl(trim($savedFileName));
+            session([
+                'user_profile_image_url' => $signedUrl,
+                'url_generation_time' => $now->toDateTimeString()
             ]);
         }
 

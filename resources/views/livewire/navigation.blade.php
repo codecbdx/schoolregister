@@ -112,15 +112,55 @@
                     </a>
                 </li>
             @endif
-            @if ($userPermission->user_type_id == intval($user->user_type_id) && 'concepts' == $userPermission->route_name)
-                <li class="nav-item {{ (str_contains(Route::currentRouteName(), 'concepts')) ? 'active' : '' }}">
-                    <a href="{{ route('concepts') }}" class="nav-link">
-                        <i class="link-icon mdi mdi-counter mt-0" style="height: 24px; font-size: 17px;"></i>
-                        <span class="link-title">{{ __('Payment Concepts') }}</span>
-                    </a>
-                </li>
-            @endif
         @endforeach
+        @php
+            $showPaymentsCategory = false;
+            $requiredRoutes = ['concepts'];
+
+            foreach ($userPermissions as $userPermission) {
+                if ($userPermission->user_type_id == intval($user->user_type_id) && in_array($userPermission->route_name, $requiredRoutes)) {
+                    $showPaymentsCategory = true;
+                    break;
+                }
+            }
+        @endphp
+        @if ($showPaymentsCategory)
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#payments" role="button" aria-expanded="false"
+                   aria-controls="payments">
+                    <i class="link-icon mdi mdi-cash-usd mt-0" style="height: 24px; font-size: 17px;"></i>
+                    <span class="link-title">{{ __('Payments') }}</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="payments">
+                    <ul class="nav sub-menu">
+                        @foreach ($userPermissions as $userPermission)
+                            @if ($userPermission->user_type_id == intval($user->user_type_id) && 'concepts' == $userPermission->route_name)
+                                <li class="nav-item">
+                                    <a href="{{ route('payment_types') }}" class="nav-link">
+                                        {{ __('Payment Types') }}
+                                    </a>
+                                </li>
+                            @endif
+                            @if ($userPermission->user_type_id == intval($user->user_type_id) && 'concepts' == $userPermission->route_name)
+                                <li class="nav-item">
+                                    <a href="{{ route('concepts') }}" class="nav-link">
+                                        {{ __('Payment Concepts') }}
+                                    </a>
+                                </li>
+                            @endif
+                            @if ($userPermission->user_type_id == intval($user->user_type_id) && 'concepts' == $userPermission->route_name)
+                                <li class="nav-item">
+                                    <a href="{{ route('concepts') }}" class="nav-link">
+                                        {{ __('Reasons') }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+            </li>
+        @endif
         @php
             $showEducationCategory = false;
             $requiredRoutes = ['areas', 'high_school', 'careers', 'universities'];
@@ -146,7 +186,7 @@
                             @if ($userPermission->user_type_id == intval($user->user_type_id) && 'areas' == $userPermission->route_name)
                                 <li class="nav-item">
                                     <a href="{{ route('areas') }}" class="nav-link">
-                                        {{ __('Areas') }}
+                                        {{ __('Graduate Profiles') }}
                                     </a>
                                 </li>
                             @endif
@@ -157,8 +197,6 @@
                                     </a>
                                 </li>
                             @endif
-                        @endforeach
-                        @foreach ($userPermissions as $userPermission)
                             @if ($userPermission->user_type_id == intval($user->user_type_id) && 'careers' == $userPermission->route_name)
                                 <li class="nav-item">
                                     <a href="{{ route('careers') }}" class="nav-link">

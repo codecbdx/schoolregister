@@ -22,7 +22,6 @@
                 </button>
                 <button type="button" class="d-block d-sm-none btn btn-light btn-icon-text w-100 btn-back">
                     <i class="mdi mdi-undo-variant mr-2"></i>
-                    {{ __('Back') }}
                 </button>
                 <button type="submit" class="d-none d-sm-block btn btn-success btn-icon-text ml-2">
                     <i class="mdi mdi-school mr-2"></i>
@@ -30,7 +29,6 @@
                 </button>
                 <button type="submit" class="d-block d-sm-none btn btn-success btn-icon-text w-100">
                     <i class="mdi mdi-school mr-2"></i>
-                    {{ __('Create Course') }}
                 </button>
             </div>
         </div>
@@ -51,10 +49,10 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name" class="control-label">{{ __('Name') }}</label>
+                                    <label for="name" class="control-label">{{ __('Course') }}</label>
                                     <input id="name" type="text"
                                            class="form-control @error('name') is-invalid @enderror" wire:model="name"
-                                           placeholder="{{ __('Name') }}"
+                                           placeholder="{{ __('Course') }}"
                                            autocomplete="name" autofocus>
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">

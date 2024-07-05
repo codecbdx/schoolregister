@@ -28,13 +28,13 @@ class CarrerasExport implements FromCollection, WithHeadings, WithMapping, WithE
     }
 
     /**
-     * @var Carreras $area
+     * @var Carreras $carreras
      */
-    public function map($area): array
+    public function map($carreras): array
     {
         return [
-            $area->id,
-            $area->nombre,
+            $carreras->id,
+            $carreras->nombre,
         ];
     }
 

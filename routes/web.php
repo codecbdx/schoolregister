@@ -8,10 +8,12 @@ use App\Livewire\ListAlumnos;
 use App\Livewire\ListaGrupos;
 use App\Livewire\ListCarreras;
 use App\Livewire\PagosAlumno;
+use App\Livewire\HistorialPagoAlumno;
 use App\Livewire\ListMediosComunicacion;
 use App\Livewire\ListUniversidades;
 use App\Livewire\ListMediaSuperior;
 use App\Livewire\ListConceptosPago;
+use App\Livewire\ListTiposPago;
 use App\Livewire\ListUsersPermissions;
 use App\Livewire\CreateUser;
 use App\Livewire\CreateCurso;
@@ -71,10 +73,12 @@ Route::middleware(['auth', 'userTypeAccess', 'checkUserStatus'])->group(function
     Route::get('/universidades', ListUniversidades::class)->name('universities');
     Route::get('/educacion-media-superior', ListMediaSuperior::class)->name('high_school');
     Route::get('/conceptos-de-pago', ListConceptosPago::class)->name('concepts');
+    Route::get('/tipos-de-pago', ListTiposPago::class)->name('payment_types');
 
     Route::get('/alumnos', ListAlumnos::class)->name('students');
     Route::get('/editar/alumno/{id}', EditAlumno::class)->name('edit_student');
     Route::get('/editar/pago/alumno/{id}', PagosAlumno::class)->name('edit_payment_student');
+    Route::get('/historial/pago/alumno/{id}', HistorialPagoAlumno::class)->name('history_payment_student');
 
     Route::get('/grupos', ListaGrupos::class)->name('groups');
     Route::get('/editar/grupo/{id}', EditarGrupo::class)->name('edit_group');

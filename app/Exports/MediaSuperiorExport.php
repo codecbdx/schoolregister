@@ -28,13 +28,13 @@ class MediaSuperiorExport implements FromCollection, WithHeadings, WithMapping, 
     }
 
     /**
-     * @var MediaSuperior $area
+     * @var MediaSuperior $mediaSuperior
      */
-    public function map($area): array
+    public function map($mediaSuperior): array
     {
         return [
-            $area->id,
-            $area->nombre,
+            $mediaSuperior->id,
+            $mediaSuperior->nombre,
         ];
     }
 

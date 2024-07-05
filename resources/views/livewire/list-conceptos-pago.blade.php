@@ -109,7 +109,7 @@
                                     <th>
                                         <a wire:click.prevent="sortBy('nombre')" role="button"
                                            href="#">
-                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
+                                            <i class="mdi mdi-sort ml-0"></i> {{ __('Payment Concept')  }}
                                         </a>
                                     </th>
                                     <th>
@@ -213,11 +213,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ __('Payment Concept') }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre_create') is-invalid @enderror"
                                                    wire:model="nombre_create"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ __('Payment Concept') }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre_create')
                                             <span class="invalid-feedback" role="alert">
@@ -248,7 +248,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editConceptLabel">{{ __('Update Concept') }}</h5>
+                            <h5 class="modal-title" id="editConceptLabel">{{ __('Update Payment Concept') }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -258,11 +258,11 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">{{ __('Name') }}</label>
+                                            <label for="name" class="control-label">{{ __('Payment Concept') }}</label>
                                             <input id="name" type="text"
                                                    class="form-control @error('nombre') is-invalid @enderror"
                                                    wire:model="nombre"
-                                                   placeholder="{{ __('Name') }}"
+                                                   placeholder="{{ __('Payment Concept') }}"
                                                    autocomplete="name" autofocus>
                                             @error('nombre')
                                             <span class="invalid-feedback" role="alert">

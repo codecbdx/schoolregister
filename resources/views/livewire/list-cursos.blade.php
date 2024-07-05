@@ -109,7 +109,7 @@
                                 <th>
                                     <a wire:click.prevent="sortBy('nombre')" role="button"
                                        href="#">
-                                        <i class="mdi mdi-sort ml-0"></i> {{ __('Name')  }}
+                                        <i class="mdi mdi-sort ml-0"></i> {{ __('Course')  }}
                                     </a>
                                 </th>
                                 <th>

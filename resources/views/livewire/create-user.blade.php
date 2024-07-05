@@ -22,7 +22,6 @@
                 </button>
                 <button type="button" class="d-block d-sm-none btn btn-light btn-icon-text w-100 btn-back">
                     <i class="mdi mdi-undo-variant mr-2"></i>
-                    {{ __('Back') }}
                 </button>
                 <button type="submit" class="d-none d-sm-block btn btn-success btn-icon-text ml-2">
                     <i class="mdi mdi-account-plus mr-2"></i>
@@ -30,7 +29,6 @@
                 </button>
                 <button type="submit" class="d-block d-sm-none btn btn-success btn-icon-text w-100">
                     <i class="mdi mdi-account-plus mr-2"></i>
-                    {{ __('Create User') }}
                 </button>
             </div>
         </div>

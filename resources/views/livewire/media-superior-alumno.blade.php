@@ -35,7 +35,6 @@
             <button wire:click="$dispatch('set-curp')"
                     class="d-block d-sm-none btn btn-success btn-icon-text w-100 mt-3">
                 <i class="mdi mdi-clipboard-text mr-2"></i>
-                {{ __('Add') }}
             </button>
         </div>
         <div
@@ -49,7 +48,6 @@
             <button wire:click="$dispatch('save-update-prompt-educacion-media-superior')"
                     class="d-block d-sm-none btn btn-linkedin btn-icon-text w-100 mt-3">
                 <i class="mdi mdi-clipboard-text mr-2"></i>
-                {{ __('Update') }}
             </button>
         </div>
     </div>
@@ -85,7 +83,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="area" class="control-label">{{ __('Terminal Area') }}</label>
+                <label for="area" class="control-label">{{ ucfirst(strtolower(__('Graduate Profile'))) }}</label>
                 <select
                     class="form-control @error('area') is-invalid @enderror"
                     id="area" wire:model="area">
@@ -177,7 +175,7 @@
                         {{ __('High School')  }}
                     </th>
                     <th>
-                        {{ __('Terminal Area')  }}
+                        {{ __('Graduate Profile')  }}
                     </th>
                     <th>
                         {{ __('Status')  }}

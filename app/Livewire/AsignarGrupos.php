@@ -52,17 +52,21 @@ class AsignarGrupos extends Component
     protected function fillOptions()
     {
         $this->options = Grupos::query()
+            ->join('cursos', 'cursos.id', '=', 'grupos.curso_id')
+            ->select('grupos.*', 'cursos.nombre as curso_nombre')
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
-                    $query->where('grupo', 'like', '%' . $this->search . '%')
-                        ->orWhere('ciclo', 'like', '%' . $this->search . '%')
-                        ->orWhere('modalidad', 'like', '%' . $this->search . '%');
+                    $query->where('grupos.grupo', 'like', '%' . $this->search . '%')
+                        ->orWhere('grupos.ciclo', 'like', '%' . $this->search . '%')
+                        ->orWhere('grupos.modalidad', 'like', '%' . $this->search . '%')
+                        ->orWhere('cursos.nombre', 'like', '%' . $this->search . '%');
                 });
             })
             ->when(!empty($this->modalidad), function ($query) {
-                $query->where('modalidad', '=', $this->modalidad);
+                $query->where('grupos.modalidad', '=', $this->modalidad);
             })
-            ->where('cancelled', 0)
+            ->whereIn('grupos.cancelled', [0, 2])
+            ->whereIn('cursos.cancelled', [0, 1])
             ->take(2500)
             ->get();
     }
@@ -137,6 +141,7 @@ class AsignarGrupos extends Component
             $grupo->cancelled = 1;
             $grupo->save();
         }
+        $this->fillOptions();
     }
 
     public function render()
